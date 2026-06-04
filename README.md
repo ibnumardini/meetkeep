@@ -2,6 +2,13 @@
 
 Automatically injects a meeting timer into Google Meet.
 
+<details>
+<summary>Screenshot</summary>
+
+![MeetKeep in action](assets/meetkeep-bottom-left.png)
+
+</details>
+
 ## Install
 
 1. Download the latest release from the [dist folder](https://github.com/ibnumardini/meetkeep/tree/master/dist), pick the latest one

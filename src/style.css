@@ -31,8 +31,8 @@
 
 .meetkeep-separator {
   align-self: center;
-  border-left: 1px solid rgba(255, 255, 255, 0.8);
-  height: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  width: 0.5rem;
   flex-shrink: 0;
   margin-left: 0.75rem;
 }

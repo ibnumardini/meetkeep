@@ -1,0 +1,23 @@
+{
+  "name": "meetkeep",
+  "version": "1.0.0",
+  "description": "A Chrome extension that automatically injects a meeting timer into Google Meet.",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "zip": "pnpm run build && node scripts/zip.js",
+    "watch": "node scripts/watch.js"
+  },
+  "keywords": [
+    "chrome-extension",
+    "google-meet",
+    "meeting-timer"
+  ],
+  "author": "Muhammad Fatkurozi <hi@mardini.dev>",
+  "license": "Apache-2.0",
+  "private": true,
+  "packageManager": "pnpm@10.15.1",
+  "devDependencies": {
+    "archiver": "^8.0.0",
+    "chokidar": "^5.0.0"
+  }
+}

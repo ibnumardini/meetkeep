@@ -1,0 +1,9 @@
+# Dependencies
+node_modules/
+
+# Package manager lock files (using pnpm)
+package-lock.json
+yarn.lock
+
+# Build output
+build/

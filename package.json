@@ -18,6 +18,8 @@
   "packageManager": "pnpm@10.15.1",
   "devDependencies": {
     "archiver": "^8.0.0",
-    "chokidar": "^5.0.0"
+    "chokidar": "^5.0.0",
+    "clean-css": "^5.3.3",
+    "terser": "^5.48.0"
   }
 }

@@ -45,16 +45,6 @@
     return wrapper;
   }
 
-  const SEPARATOR_ID = 'meetkeep-separator';
-
-  function buildSeparator() {
-    const sep = document.createElement('div');
-    sep.id = SEPARATOR_ID;
-    sep.setAttribute('role', 'separator');
-    sep.className = 'meetkeep-separator';
-    return sep;
-  }
-
   function injectTimer(target) {
     if (document.getElementById(TIMER_ID)) return;
 
@@ -63,8 +53,6 @@
     }
 
     const timer = buildTimerElement();
-    const sep = buildSeparator();
-    target.prepend(sep);
     target.prepend(timer);
 
     if (!tickInterval) {
@@ -76,8 +64,6 @@
   function removeTimer() {
     const el = document.getElementById(TIMER_ID);
     if (el) el.remove();
-    const sep = document.getElementById(SEPARATOR_ID);
-    if (sep) sep.remove();
 
     if (tickInterval) {
       clearInterval(tickInterval);

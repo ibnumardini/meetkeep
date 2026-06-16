@@ -1,6 +1,7 @@
 (() => {
-  const TIMER_ID = 'meetkeep-timer';
-  const TARGET_ID = 'browser-extension-start-buttons';
+  const TIMER_ID = "meetkeep-timer";
+  const SEPARATOR_ID = "meetkeep-separator";
+  const TARGET_ID = "browser-extension-start-buttons";
   const POLL_INTERVAL_MS = 500;
   const TICK_INTERVAL_MS = 1000;
 
@@ -11,34 +12,65 @@
 
   function formatElapsed(ms) {
     const totalSeconds = Math.floor(ms / 1000);
-    const hh = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
-    const mm = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
-    const ss = String(totalSeconds % 60).padStart(2, '0');
+    const hh = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
+    const mm = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, "0");
+    const ss = String(totalSeconds % 60).padStart(2, "0");
     return `${hh}:${mm}:${ss}`;
+  }
+
+  function hasExtraChildren() {
+    const target = document.getElementById(TARGET_ID);
+    if (!target) return false;
+    const parent = target.parentElement;
+    if (!parent) return false;
+    return parent.childElementCount > 2;
+  }
+
+  function buildSeparator() {
+    const sep = document.createElement("div");
+    sep.id = SEPARATOR_ID;
+    sep.setAttribute("role", "separator");
+    sep.className = "meetkeep-separator";
+    return sep;
+  }
+
+  function updateSeparator() {
+    const timer = document.getElementById(TIMER_ID);
+    if (!timer) return;
+
+    const existing = document.getElementById(SEPARATOR_ID);
+    if (hasExtraChildren()) {
+      if (!existing) {
+        timer.after(buildSeparator());
+      }
+    } else {
+      if (existing) existing.remove();
+    }
   }
 
   function tick() {
     const el = document.getElementById(TIMER_ID);
     if (!el) return;
-    const display = el.querySelector('.meetkeep-display');
+    const display = el.querySelector(".meetkeep-display");
     if (display) {
       display.textContent = formatElapsed(Date.now() - startTime);
     }
+    updateSeparator();
   }
 
   function buildTimerElement() {
-    const wrapper = document.createElement('div');
+    const wrapper = document.createElement("div");
     wrapper.id = TIMER_ID;
-    wrapper.setAttribute('role', 'timer');
-    wrapper.setAttribute('aria-live', 'off');
+    wrapper.setAttribute("role", "timer");
+    wrapper.setAttribute("aria-live", "off");
 
-    const label = document.createElement('span');
-    label.className = 'meetkeep-label';
-    label.textContent = 'MK';
+    const label = document.createElement("span");
+    label.className = "meetkeep-label";
+    label.textContent = "MK";
 
-    const display = document.createElement('span');
-    display.className = 'meetkeep-display';
-    display.textContent = '00:00';
+    const display = document.createElement("span");
+    display.className = "meetkeep-display";
+    display.textContent = "00:00:00";
 
     wrapper.appendChild(label);
     wrapper.appendChild(display);
@@ -64,6 +96,8 @@
   function removeTimer() {
     const el = document.getElementById(TIMER_ID);
     if (el) el.remove();
+    const sep = document.getElementById(SEPARATOR_ID);
+    if (sep) sep.remove();
 
     if (tickInterval) {
       clearInterval(tickInterval);
@@ -88,6 +122,7 @@
       if (target && !document.getElementById(TIMER_ID)) {
         injectTimer(target);
       }
+      updateSeparator();
     });
 
     observer.observe(document.body, {
@@ -127,7 +162,7 @@
     handleNavigation();
   };
 
-  window.addEventListener('popstate', handleNavigation);
+  window.addEventListener("popstate", handleNavigation);
 
   // Initial boot
   if (!tryInject()) {

@@ -27,6 +27,10 @@
   margin-left: 0.75rem;
 }
 
+.meetkeep-label--hover {
+  color: #FACC15 !important;
+}
+
 .meetkeep-label {
   font-family: "Google Sans", Roboto, Arial, sans-serif;
   font-size: 0.75rem;

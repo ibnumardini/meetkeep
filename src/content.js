@@ -67,6 +67,12 @@
     const label = document.createElement("span");
     label.className = "meetkeep-label";
     label.textContent = "MK";
+    label.style.cursor = "pointer";
+    label.addEventListener("mouseenter", () => { label.textContent = "RESET"; label.classList.add("meetkeep-label--hover"); });
+    label.addEventListener("mouseleave", () => { label.textContent = "MK"; label.classList.remove("meetkeep-label--hover"); });
+    label.addEventListener("click", () => {
+      startTime = Date.now();
+    });
 
     const display = document.createElement("span");
     display.className = "meetkeep-display";

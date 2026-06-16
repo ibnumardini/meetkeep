@@ -11,7 +11,7 @@ Automatically injects a meeting timer into Google Meet.
 
 ## Install
 
-1. Download the latest release from the [dist folder](https://github.com/ibnumardini/meetkeep/tree/master/dist), pick the latest one
+1. Download the latest release from [GitHub Releases](https://github.com/ibnumardini/meetkeep/releases)
 2. Extract the zip
 3. Open Chrome → `chrome://extensions`
 4. Enable **Developer mode**

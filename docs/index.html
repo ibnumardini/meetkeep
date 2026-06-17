@@ -23,37 +23,75 @@
   <meta name="twitter:title" content="MeetKeep - Meeting Timer for Google Meet">
   <meta name="twitter:description" content="Free Chrome extension that automatically shows a meeting timer in Google Meet.">
   <meta name="twitter:image" content="https://ibnumardini.github.io/meetkeep/assets/meetkeep-bottom-left.webp">
+
   <link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/ibnumardini/meetkeep/refs/heads/master/icons/16.png">
   <link rel="icon" type="image/png" sizes="48x48" href="https://raw.githubusercontent.com/ibnumardini/meetkeep/refs/heads/master/icons/48.png">
   <link rel="icon" type="image/png" sizes="128x128" href="https://raw.githubusercontent.com/ibnumardini/meetkeep/refs/heads/master/icons/128.png">
+
+  <script>
+    // Apply theme before paint to avoid flash
+    const saved = localStorage.getItem('theme') || 'system';
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'dark' || (saved === 'system' && prefersDark)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    }
+  </script>
 </head>
 
-<body class="bg-neutral-50 text-neutral-900 antialiased">
+<body class="bg-neutral-50 dark:bg-stone-800 text-neutral-900 dark:text-neutral-100 antialiased transition-colors">
 
   <!-- Nav -->
-  <nav class="sticky top-0 z-10 bg-neutral-50 border-b border-neutral-200 px-8 py-4">
+  <nav class="sticky top-0 z-10 bg-neutral-50 dark:bg-stone-800 border-b border-neutral-200 dark:border-stone-700 px-8 py-4">
     <div class="max-w-5xl mx-auto flex items-center justify-between">
-    <a href="#" class="flex items-center gap-2 font-semibold text-sm no-underline">
-      <img src="https://raw.githubusercontent.com/ibnumardini/meetkeep/refs/heads/master/icons/128.png" alt="MeetKeep icon" class="w-6 h-6">
-      MeetKeep
-    </a>
-    <a href="https://github.com/ibnumardini/meetkeep" target="_blank" rel="noopener" class="flex items-center gap-1.5 text-sm text-neutral-500 hover:text-neutral-900 transition-colors no-underline">
-      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-      </svg>
-      GitHub
-    </a>
+      <a href="#" class="flex items-center gap-2 font-semibold text-sm no-underline">
+        <img src="https://raw.githubusercontent.com/ibnumardini/meetkeep/refs/heads/master/icons/128.png" alt="MeetKeep icon" class="w-6 h-6">
+        MeetKeep
+      </a>
+      <div class="flex items-center gap-4">
+        <!-- Theme toggle -->
+        <div class="flex items-center gap-1 border border-neutral-200 dark:border-stone-700 rounded-lg p-1">
+          <button onclick="setTheme('light')" id="btn-light" title="Light" class="theme-btn p-1.5 rounded-md transition-colors">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+            </svg>
+          </button>
+          <button onclick="setTheme('system')" id="btn-system" title="System" class="theme-btn p-1.5 rounded-md transition-colors">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" />
+              <path d="M8 21h8M12 17v4" />
+            </svg>
+          </button>
+          <button onclick="setTheme('dark')" id="btn-dark" title="Dark" class="theme-btn p-1.5 rounded-md transition-colors">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+            </svg>
+          </button>
+        </div>
+        <a href="https://github.com/ibnumardini/meetkeep" target="_blank" rel="noopener" class="flex items-center gap-1.5 text-sm text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors no-underline">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+          </svg>
+          GitHub
+        </a>
+      </div>
     </div>
   </nav>
 
   <!-- Hero -->
   <section class="max-w-5xl mx-auto px-8 pt-20 pb-12 text-center">
     <div class="flex items-center justify-center gap-2 mb-6">
-      <span class="inline-block text-xs font-medium text-neutral-500 border border-neutral-200 rounded-full px-3 py-1 tracking-wide">
+      <span class="inline-block text-xs font-medium text-neutral-500 border border-neutral-200 dark:border-stone-700 rounded-full px-3 py-1 tracking-wide">
         Chrome Extension
       </span>
-      <span id="version-badge" class="hidden text-xs font-medium text-neutral-500 border border-neutral-200 rounded-full px-3 py-1 tracking-wide"></span>
+      <span id="version-badge" class="hidden text-xs font-medium text-neutral-500 border border-neutral-200 dark:border-stone-700 rounded-full px-3 py-1 tracking-wide"></span>
     </div>
     <h1 class="text-5xl font-bold tracking-tight leading-tight mb-4">
       Keep track of time<br>in every meeting
@@ -62,7 +100,7 @@
       MeetKeep automatically injects a meeting timer into Google Meet, so you always know how long you've been in a call.
     </p>
     <div class="flex items-center justify-center gap-3 flex-wrap">
-      <a href="https://github.com/ibnumardini/meetkeep/releases" target="_blank" rel="noopener" class="download-btn inline-flex items-center gap-2 bg-neutral-900 text-neutral-50 text-sm font-medium px-5 py-2.5 rounded-lg hover:opacity-80 transition-opacity no-underline">
+      <a href="https://github.com/ibnumardini/meetkeep/releases" target="_blank" rel="noopener" class="download-btn inline-flex items-center gap-2 bg-neutral-900 dark:bg-neutral-100 text-neutral-50 dark:text-neutral-900 text-sm font-medium px-5 py-2.5 rounded-lg hover:opacity-80 transition-opacity no-underline">
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
           <polyline points="7 10 12 15 17 10" />
@@ -70,7 +108,7 @@
         </svg>
         Download
       </a>
-      <a href="https://github.com/ibnumardini/meetkeep" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-neutral-500 border border-neutral-200 px-5 py-2.5 rounded-lg hover:bg-neutral-100 hover:text-neutral-900 transition-colors no-underline">
+      <a href="https://github.com/ibnumardini/meetkeep" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-neutral-500 border border-neutral-200 dark:border-stone-700 px-5 py-2.5 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-900 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors no-underline">
         View on GitHub
       </a>
     </div>
@@ -78,38 +116,38 @@
 
   <!-- Screenshot -->
   <div class="max-w-5xl mx-auto px-8 mb-20">
-    <div class="border border-neutral-200 rounded-xl overflow-hidden shadow-sm">
+    <div class="border border-neutral-200 dark:border-stone-700 rounded-xl overflow-hidden shadow-sm">
       <img src="https://raw.githubusercontent.com/ibnumardini/meetkeep/refs/heads/master/assets/meetkeep-bottom-left.webp" alt="MeetKeep timer in a Google Meet call" class="block w-full h-auto">
     </div>
   </div>
 
   <!-- Install -->
-  <section class="max-w-5xl mx-auto px-8 py-16 border-t border-neutral-200">
+  <section class="max-w-5xl mx-auto px-8 py-16 border-t border-neutral-200 dark:border-stone-700">
     <h2 class="text-2xl font-bold tracking-tight mb-8">Install in 3 steps</h2>
     <div class="flex flex-col gap-5">
       <div class="flex gap-4 items-start">
-        <div class="shrink-0 w-7 h-7 rounded-full bg-neutral-900 text-neutral-50 text-xs font-semibold flex items-center justify-center mt-0.5">1</div>
-        <p class="text-sm text-neutral-700 pt-1">
-          Download the latest <code class="font-mono text-xs bg-neutral-100 border border-neutral-200 rounded px-1.5 py-0.5">.zip</code> from
+        <div class="shrink-0 w-7 h-7 rounded-full bg-neutral-900 dark:bg-neutral-100 text-neutral-50 dark:text-neutral-900 text-xs font-semibold flex items-center justify-center mt-0.5">1</div>
+        <p class="text-sm text-neutral-700 dark:text-neutral-300 pt-1">
+          Download the latest <code class="font-mono text-xs bg-neutral-100 dark:bg-stone-800 border border-neutral-200 dark:border-stone-700 rounded px-1.5 py-0.5">.zip</code> from
           <a href="https://github.com/ibnumardini/meetkeep/releases" target="_blank" rel="noopener" class="underline">GitHub Releases</a> and extract it.
         </p>
       </div>
       <div class="flex gap-4 items-start">
-        <div class="shrink-0 w-7 h-7 rounded-full bg-neutral-900 text-neutral-50 text-xs font-semibold flex items-center justify-center mt-0.5">2</div>
-        <p class="text-sm text-neutral-700 pt-1">
-          Open Chrome and go to <code class="font-mono text-xs bg-neutral-100 border border-neutral-200 rounded px-1.5 py-0.5">chrome://extensions</code>.
+        <div class="shrink-0 w-7 h-7 rounded-full bg-neutral-900 dark:bg-neutral-100 text-neutral-50 dark:text-neutral-900 text-xs font-semibold flex items-center justify-center mt-0.5">2</div>
+        <p class="text-sm text-neutral-700 dark:text-neutral-300 pt-1">
+          Open Chrome and go to <code class="font-mono text-xs bg-neutral-100 dark:bg-stone-800 border border-neutral-200 dark:border-stone-700 rounded px-1.5 py-0.5">chrome://extensions</code>.
           Enable <strong>Developer mode</strong> (top-right toggle).
         </p>
       </div>
       <div class="flex gap-4 items-start">
-        <div class="shrink-0 w-7 h-7 rounded-full bg-neutral-900 text-neutral-50 text-xs font-semibold flex items-center justify-center mt-0.5">3</div>
-        <p class="text-sm text-neutral-700 pt-1">
+        <div class="shrink-0 w-7 h-7 rounded-full bg-neutral-900 dark:bg-neutral-100 text-neutral-50 dark:text-neutral-900 text-xs font-semibold flex items-center justify-center mt-0.5">3</div>
+        <p class="text-sm text-neutral-700 dark:text-neutral-300 pt-1">
           Click <strong>Load unpacked</strong> and select the extracted folder. Done, open any Google Meet call.
         </p>
       </div>
     </div>
     <div class="mt-10">
-      <a href="https://github.com/ibnumardini/meetkeep/releases" target="_blank" rel="noopener" class="download-btn inline-flex items-center gap-2 bg-neutral-900 text-neutral-50 text-sm font-medium px-5 py-2.5 rounded-lg hover:opacity-80 transition-opacity no-underline">
+      <a href="https://github.com/ibnumardini/meetkeep/releases" target="_blank" rel="noopener" class="download-btn inline-flex items-center gap-2 bg-neutral-900 dark:bg-neutral-100 text-neutral-50 dark:text-neutral-900 text-sm font-medium px-5 py-2.5 rounded-lg hover:opacity-80 transition-opacity no-underline">
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
           <polyline points="7 10 12 15 17 10" />
@@ -140,12 +178,40 @@
     }
 
     fetchLatestRelease();
+
+    function setTheme(theme) {
+      localStorage.setItem('theme', theme);
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (theme === 'dark' || (theme === 'system' && prefersDark)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      updateToggle(theme);
+    }
+
+    function updateToggle(theme) {
+      ['light', 'system', 'dark'].forEach(t => {
+        const btn = document.getElementById('btn-' + t);
+        if (t === theme) {
+          btn.classList.add('bg-neutral-200', 'dark:bg-stone-600', 'text-neutral-900', 'dark:text-neutral-100');
+        } else {
+          btn.classList.remove('bg-neutral-200', 'dark:bg-stone-600', 'text-neutral-900', 'dark:text-neutral-100');
+        }
+      });
+    }
+
+    updateToggle(localStorage.getItem('theme') || 'system');
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if ((localStorage.getItem('theme') || 'system') === 'system') setTheme('system');
+    });
   </script>
 
   <!-- Footer -->
-  <footer class="border-t border-neutral-200 py-8 text-center text-xs text-neutral-400">
-    Made by <a href="mailto:hi@mardini.dev" class="hover:text-neutral-900 transition-colors no-underline">Muhammad Fatkurozi</a>
-    · <a href="https://github.com/ibnumardini/meetkeep/blob/master/LICENSE" target="_blank" rel="noopener" class="hover:text-neutral-900 transition-colors no-underline">Apache-2.0</a>
+  <footer class="border-t border-neutral-200 dark:border-stone-700 py-8 text-center text-xs text-neutral-400">
+    Made by <a href="mailto:hi@mardini.dev" class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors no-underline">Muhammad Fatkurozi</a>
+    · <a href="https://github.com/ibnumardini/meetkeep/blob/master/LICENSE" target="_blank" rel="noopener" class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors no-underline">Apache-2.0</a>
   </footer>
 
 </body>

@@ -5,7 +5,18 @@
   const POLL_INTERVAL_MS = 500;
   const TICK_INTERVAL_MS = 1000;
 
+  const LEAVE_TITLE_PATTERNS = [
+    /you left the meeting/i,
+    /anda (telah )?(keluar dari|meninggalkan) rapat/i,
+  ];
+
+  const UNIT_LABELS = {
+    id: { h: "j", m: "mnt", s: "dtk" },
+    en: { h: "h", m: "m", s: "s" },
+  };
+
   let startTime = null;
+  let elapsedAtLeave = null;
   let tickInterval = null;
   let pollInterval = null;
   let observer = null;
@@ -16,6 +27,46 @@
     const mm = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, "0");
     const ss = String(totalSeconds % 60).padStart(2, "0");
     return `${hh}:${mm}:${ss}`;
+  }
+
+  function formatElapsedWords(ms, lang) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    const unit = UNIT_LABELS[lang];
+
+    if (hours > 0) return `${hours}${unit.h} ${minutes}${unit.m} ${seconds}${unit.s}`;
+    if (minutes > 0) return `${minutes}${unit.m} ${seconds}${unit.s}`;
+    return `${seconds}${unit.s}`;
+  }
+
+  function detectLang() {
+    const lang = (document.documentElement.lang || navigator.language || "").toLowerCase();
+    if (lang.startsWith("id")) return "id";
+    if (lang.startsWith("en")) return "en";
+    return null;
+  }
+
+  function isLeaveTitle(text) {
+    return LEAVE_TITLE_PATTERNS.some((re) => re.test(text));
+  }
+
+  function appendDurationToLeaveTitle() {
+    const h1 = document.querySelector("h1");
+    if (!h1 || h1.dataset.meetkeepTagged) return;
+    if (!isLeaveTitle(h1.textContent)) return;
+
+    if (elapsedAtLeave == null) {
+      elapsedAtLeave = startTime ? Date.now() - startTime : 0;
+    }
+
+    const lang = detectLang();
+    const suffix = lang
+      ? `${lang === "id" ? "setelah" : "after"} ${formatElapsedWords(elapsedAtLeave, lang)}`
+      : `(${formatElapsed(elapsedAtLeave)})`;
+    h1.textContent = `${h1.textContent} ${suffix}`;
+    h1.dataset.meetkeepTagged = "1";
   }
 
   function hasExtraChildren() {
@@ -129,6 +180,7 @@
         injectTimer(target);
       }
       updateSeparator();
+      appendDurationToLeaveTitle();
     });
 
     observer.observe(document.body, {
@@ -141,6 +193,7 @@
     if (pollInterval) return;
 
     pollInterval = setInterval(() => {
+      appendDurationToLeaveTitle();
       if (tryInject()) {
         clearInterval(pollInterval);
         pollInterval = null;
@@ -152,6 +205,7 @@
   function handleNavigation() {
     removeTimer();
     startTime = null;
+    elapsedAtLeave = null;
     startPolling();
   }
 

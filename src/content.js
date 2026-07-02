@@ -6,7 +6,7 @@
   const TICK_INTERVAL_MS = 1000;
 
   const LEAVE_TITLE_PATTERNS = [
-    /you left the meeting/i,
+    /you('ve| have)? left the meeting/i,
     /anda (telah )?(keluar dari|meninggalkan) rapat/i,
   ];
 

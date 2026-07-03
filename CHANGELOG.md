@@ -1,0 +1,40 @@
+# Changelog
+
+All notable changes to this project are documented in this file.
+
+## [1.1.2]
+
+### Added
+
+- Leave-title pattern for "you've ended the meeting for everyone" (EN and ID).
+
+### Removed
+
+- Inline ternary for the "after"/"setelah" label, replaced by `AFTER_LABELS` constant.
+
+## [1.1.1] - 2026-07-02
+
+### Fixed
+
+- Duration no longer missing from the leave screen title when Google Meet shows "You've left the meeting" (previously only matched "You left the meeting" without the apostrophe).
+
+## [1.1.0] - 2026-07-02
+
+### Added
+
+- Meeting duration now appended to the "You left the meeting" title (e.g. "You left the meeting after 5m 32s").
+- Duration format adapts to elapsed time: seconds only, minutes + seconds, or hours + minutes + seconds.
+- Indonesian language support: shows "... setelah 5m 32s" using j/mnt/dtk units when Meet UI is in Bahasa Indonesia.
+- Falls back to (hh:mm:ss) format for languages other than English/Indonesian.
+
+## [1.0.2] - 2026-06-16
+
+### Added
+
+- Timer now displays full hh:mm:ss format (previously mm:ss).
+- Separator line appears between timer and toolbar elements when additional items are present.
+- Hover "MK" label to preview "RESET" text with yellow highlight, click to reset timer to 00:00:00.
+
+### Removed
+
+- Removed static separator that was always visible.

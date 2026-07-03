@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "MeetKeep - Google Meet Timer",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Automatically injects a meeting timer into Google Meet.",
   "homepage_url": "https://ibnumardini.github.io/meetkeep",
   "author": "Muhammad Fatkurozi",

@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.2.0] - 2026-07-03
+
+### Added
+
+- Anonymous daily usage ping to Google Analytics (Measurement Protocol) so we can tell if the extension is actually used, no personal data or meeting content sent. **Enabled by default, disable it anytime from the extension popup if you don't want it.**
+- Extension popup with a toggle to opt out of anonymous usage pings.
+- Custom timer label setting in the popup, replacing the default "MK" text on the Meet timer widget.
+
 ## [1.1.2]
 
 ### Added

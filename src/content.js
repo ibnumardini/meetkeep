@@ -152,6 +152,8 @@
       tick();
       tickInterval = setInterval(tick, TICK_INTERVAL_MS);
     }
+
+    chrome.runtime.sendMessage({ type: "meetkeep_ping" }).catch(() => {});
   }
 
   function removeTimer() {

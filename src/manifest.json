@@ -5,7 +5,14 @@
   "description": "Automatically injects a meeting timer into Google Meet.",
   "homepage_url": "https://ibnumardini.github.io/meetkeep",
   "author": "Muhammad Fatkurozi",
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "storage"],
+  "host_permissions": ["https://www.google-analytics.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
   "content_scripts": [
     {
       "matches": ["https://meet.google.com/*"],

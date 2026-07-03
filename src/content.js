@@ -17,6 +17,8 @@
     en: { h: "h", m: "m", s: "s" },
   };
 
+  const AFTER_LABELS = { id: "setelah", en: "after" };
+
   let startTime = null;
   let elapsedAtLeave = null;
   let tickInterval = null;
@@ -65,7 +67,7 @@
 
     const lang = detectLang();
     const suffix = lang
-      ? `${lang === "id" ? "setelah" : "after"} ${formatElapsedWords(elapsedAtLeave, lang)}`
+      ? `${AFTER_LABELS[lang]} ${formatElapsedWords(elapsedAtLeave, lang)}`
       : `(${formatElapsed(elapsedAtLeave)})`;
     h1.textContent = `${h1.textContent} ${suffix}`;
     h1.dataset.meetkeepTagged = "1";

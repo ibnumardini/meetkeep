@@ -7,7 +7,9 @@
 
   const LEAVE_TITLE_PATTERNS = [
     /you('ve| have)? left the meeting/i,
+    /you('ve| have)? ended the meeting for everyone/i,
     /anda (telah )?(keluar dari|meninggalkan) rapat/i,
+    /anda (telah )?mengakhiri rapat untuk semua peserta/i,
   ];
 
   const UNIT_LABELS = {

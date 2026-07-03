@@ -41,13 +41,24 @@ function setTheme(theme) {
 
 function updateToggle(theme) {
   ['light', 'system', 'dark'].forEach(t => {
-    const btn = document.getElementById('btn-' + t);
-    if (t === theme) {
-      btn.classList.add('bg-neutral-200', 'dark:bg-stone-600', 'text-neutral-900', 'dark:text-neutral-100');
-    } else {
-      btn.classList.remove('bg-neutral-200', 'dark:bg-stone-600', 'text-neutral-900', 'dark:text-neutral-100');
-    }
+    ['btn-' + t, 'btn-' + t + '-mobile'].forEach(id => {
+      const btn = document.getElementById(id);
+      if (!btn) return;
+      if (t === theme) {
+        btn.classList.add('bg-neutral-200', 'dark:bg-stone-600', 'text-neutral-900', 'dark:text-neutral-100');
+      } else {
+        btn.classList.remove('bg-neutral-200', 'dark:bg-stone-600', 'text-neutral-900', 'dark:text-neutral-100');
+      }
+    });
   });
+}
+
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const btn = document.getElementById('btn-mobile-menu');
+  const isOpen = !menu.classList.contains('hidden');
+  menu.classList.toggle('hidden');
+  btn.setAttribute('aria-expanded', String(!isOpen));
 }
 
 function renderReleaseBody(body) {

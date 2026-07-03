@@ -18,12 +18,28 @@
   };
 
   const AFTER_LABELS = { id: "setelah", en: "after" };
+  const DEFAULT_LABEL = "MK";
 
   let startTime = null;
   let elapsedAtLeave = null;
   let tickInterval = null;
   let pollInterval = null;
   let observer = null;
+  let customLabel = DEFAULT_LABEL;
+
+  chrome.storage.local.get("customLabel").then(({ customLabel: stored }) => {
+    if (stored) customLabel = stored;
+  });
+
+  chrome.storage.onChanged.addListener((changes) => {
+    if (changes.customLabel) {
+      customLabel = changes.customLabel.newValue || DEFAULT_LABEL;
+      const label = document.querySelector(`#${TIMER_ID} .meetkeep-label`);
+      if (label && !label.classList.contains("meetkeep-label--hover")) {
+        label.textContent = customLabel;
+      }
+    }
+  });
 
   function formatElapsed(ms) {
     const totalSeconds = Math.floor(ms / 1000);
@@ -121,10 +137,10 @@
 
     const label = document.createElement("span");
     label.className = "meetkeep-label";
-    label.textContent = "MK";
+    label.textContent = customLabel;
     label.style.cursor = "pointer";
     label.addEventListener("mouseenter", () => { label.textContent = "RESET"; label.classList.add("meetkeep-label--hover"); });
-    label.addEventListener("mouseleave", () => { label.textContent = "MK"; label.classList.remove("meetkeep-label--hover"); });
+    label.addEventListener("mouseleave", () => { label.textContent = customLabel; label.classList.remove("meetkeep-label--hover"); });
     label.addEventListener("click", () => {
       startTime = Date.now();
     });

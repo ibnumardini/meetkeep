@@ -1,0 +1,7 @@
+name = "meetkeep-analytics"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+# Set secrets via CLI, not here:
+#   wrangler secret put GA_MEASUREMENT_ID
+#   wrangler secret put GA_API_SECRET

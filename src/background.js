@@ -1,6 +1,4 @@
-const GA_MEASUREMENT_ID = "G-BW58EEQV11";
-const GA_API_SECRET = "IrbucS3nQEWxRtYdLLh4Bg";
-const GA_ENDPOINT = `https://www.google-analytics.com/mp/collect?measurement_id=${GA_MEASUREMENT_ID}&api_secret=${GA_API_SECRET}`;
+const ANALYTICS_ENDPOINT = "https://meetkeep-analytics.mardini.workers.dev";
 
 function todayString() {
   return new Date().toDateString();
@@ -29,7 +27,7 @@ async function pingUsage() {
   const clientId = await getClientId();
   await chrome.storage.local.set({ lastPingDate: todayString() });
 
-  fetch(GA_ENDPOINT, {
+  fetch(ANALYTICS_ENDPOINT, {
     method: "POST",
     body: JSON.stringify({
       client_id: clientId,

@@ -12,3 +12,14 @@
   -webkit-mask-size: contain;
   mask-size: contain;
 }
+
+@media (min-width: 768px) {
+  .theme-toggle .theme-btn:not([data-active]) {
+    display: none;
+  }
+
+  .theme-toggle:hover .theme-btn,
+  .theme-toggle:focus-within .theme-btn {
+    display: flex;
+  }
+}

@@ -64,14 +64,14 @@
           GitHub
         </a>
         <!-- Theme toggle -->
-        <div class="flex items-center gap-1 border border-neutral-200 dark:border-stone-700 rounded-lg p-1">
-          <button onclick="setTheme('light')" id="btn-light" title="Light" class="theme-btn flex items-center justify-center p-1.5 rounded-md transition-colors">
+        <div class="theme-toggle flex items-center gap-1 border border-neutral-200 dark:border-stone-700 rounded-lg p-1">
+          <button onclick="setTheme('light'); setTimeout(() => this.blur(), 0)" id="btn-light" title="Light" class="theme-btn flex items-center justify-center p-1.5 rounded-md transition-colors">
             <span class="icon w-3.5 h-3.5" style="--icon:url('icons/sun.svg')"></span>
           </button>
-          <button onclick="setTheme('system')" id="btn-system" title="System" class="theme-btn flex items-center justify-center p-1.5 rounded-md transition-colors">
+          <button onclick="setTheme('system'); setTimeout(() => this.blur(), 0)" id="btn-system" title="System" class="theme-btn flex items-center justify-center p-1.5 rounded-md transition-colors">
             <span class="icon w-3.5 h-3.5" style="--icon:url('icons/monitor.svg')"></span>
           </button>
-          <button onclick="setTheme('dark')" id="btn-dark" title="Dark" class="theme-btn flex items-center justify-center p-1.5 rounded-md transition-colors">
+          <button onclick="setTheme('dark'); setTimeout(() => this.blur(), 0)" id="btn-dark" title="Dark" class="theme-btn flex items-center justify-center p-1.5 rounded-md transition-colors">
             <span class="icon w-3.5 h-3.5" style="--icon:url('icons/moon.svg')"></span>
           </button>
         </div>

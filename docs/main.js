@@ -46,8 +46,10 @@ function updateToggle(theme) {
       if (!btn) return;
       if (t === theme) {
         btn.classList.add('bg-neutral-200', 'dark:bg-stone-600', 'text-neutral-900', 'dark:text-neutral-100');
+        btn.setAttribute('data-active', '');
       } else {
         btn.classList.remove('bg-neutral-200', 'dark:bg-stone-600', 'text-neutral-900', 'dark:text-neutral-100');
+        btn.removeAttribute('data-active');
       }
     });
   });

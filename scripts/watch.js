@@ -6,7 +6,7 @@ const root = path.join(__dirname, '..');
 
 function build() {
   try {
-    execSync('node scripts/build.js', { cwd: root, stdio: 'inherit' });
+    execSync('bun scripts/build.js', { cwd: root, stdio: 'inherit' });
   } catch (e) {
     console.error('Build failed');
   }

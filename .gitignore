@@ -1,9 +1,10 @@
 # Dependencies
 node_modules/
 
-# Package manager lock files (using pnpm)
+# Package manager lock files (using bun)
 package-lock.json
 yarn.lock
+pnpm-lock.yaml
 
 # Build output
 build/

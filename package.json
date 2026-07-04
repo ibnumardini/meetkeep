@@ -3,9 +3,9 @@
   "version": "1.2.2",
   "description": "A Chrome extension that automatically injects a meeting timer into Google Meet.",
   "scripts": {
-    "build": "node scripts/build.js",
-    "zip": "pnpm run build && node scripts/zip.js",
-    "watch": "node scripts/watch.js"
+    "build": "bun scripts/build.js",
+    "zip": "bun run build && bun scripts/zip.js",
+    "watch": "bun scripts/watch.js"
   },
   "keywords": [
     "chrome-extension",
@@ -15,7 +15,6 @@
   "author": "Muhammad Fatkurozi <hi@mardini.dev>",
   "license": "Apache-2.0",
   "private": true,
-  "packageManager": "pnpm@10.15.1",
   "devDependencies": {
     "archiver": "^8.0.0",
     "chokidar": "^5.0.0",

@@ -20,10 +20,10 @@ Automatically injects a meeting timer into Google Meet.
 ## Development
 
 ```bash
-pnpm install       # install dependencies
-pnpm build         # build to build/
-pnpm watch         # build + watch for changes
-pnpm zip           # build + package to dist/
+bun install        # install dependencies
+bun run build      # build to build/
+bun run watch      # build + watch for changes
+bun run zip        # build + package to dist/
 ```
 
 ## Author

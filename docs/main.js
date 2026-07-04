@@ -1,5 +1,6 @@
 const REPO = 'ibnumardini/meetkeep';
 const CACHE_TTL_MS = 60 * 60 * 1000;
+const ANALYTICS_ENDPOINT = 'https://meetkeep-analytics.mardini.workers.dev';
 
 async function fetchJsonCached(url, cacheKey) {
   const cached = localStorage.getItem(cacheKey);
@@ -91,6 +92,16 @@ async function fetchReleases() {
   }
 }
 
+async function fetchActiveUsersToday() {
+  const el = document.getElementById('active-users-today');
+  const text = document.getElementById('active-users-today-text');
+  try {
+    const data = await fetchJsonCached(`${ANALYTICS_ENDPOINT}/active-users-today`, 'mk_active_users_today');
+    text.textContent = `${data.activeUsers} active user${data.activeUsers === 1 ? '' : 's'} today`;
+    el.classList.remove('hidden');
+  } catch {}
+}
+
 function playVideo() {
   var container = document.getElementById('video-container');
   var thumbnail = document.getElementById('video-thumbnail');
@@ -109,6 +120,7 @@ function playVideo() {
 
 fetchLatestRelease();
 fetchReleases();
+fetchActiveUsersToday();
 updateToggle(localStorage.getItem('theme') || 'system');
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
   if ((localStorage.getItem('theme') || 'system') === 'system') setTheme('system');

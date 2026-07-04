@@ -63,7 +63,7 @@ export async function getActiveUsersToday(request, env) {
   return new Response(JSON.stringify({ activeUsers }), {
     headers: {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "https://ibnumardini.github.io",
+      "Access-Control-Allow-Origin": "*",
     },
   });
 }

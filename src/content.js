@@ -154,22 +154,41 @@
     return wrapper;
   }
 
+  function isStillOnPrejoinScreen() {
+    const target = document.getElementById(TARGET_ID);
+    if (!target) return false;
+    const h1 = document.querySelector("h1");
+    if (h1 && isLeaveTitle(h1.textContent)) return false;
+    return true;
+  }
+
   function injectTimer(target) {
     if (document.getElementById(TIMER_ID)) return;
+    if (document.getElementById("meetkeep-pending-inject")) return;
 
-    if (!startTime) {
+    const marker = document.createElement("meta");
+    marker.id = "meetkeep-pending-inject";
+    document.head.appendChild(marker);
+
+    setTimeout(() => {
+      marker.remove();
+
+      if (document.getElementById(TIMER_ID)) return;
+      if (!isStillOnPrejoinScreen()) return;
+
       startTime = Date.now();
-    }
+      elapsedAtLeave = null;
 
-    const timer = buildTimerElement();
-    target.prepend(timer);
+      const timer = buildTimerElement();
+      target.prepend(timer);
 
-    if (!tickInterval) {
-      tick();
-      tickInterval = setInterval(tick, TICK_INTERVAL_MS);
-    }
+      if (!tickInterval) {
+        tick();
+        tickInterval = setInterval(tick, TICK_INTERVAL_MS);
+      }
 
-    chrome.runtime.sendMessage({ type: "meetkeep_ping" }).catch(() => {});
+      chrome.runtime.sendMessage({ type: "meetkeep_ping" }).catch(() => {});
+    }, 300);
   }
 
   function removeTimer() {
@@ -226,8 +245,6 @@
 
   function handleNavigation() {
     removeTimer();
-    startTime = null;
-    elapsedAtLeave = null;
     startPolling();
   }
 

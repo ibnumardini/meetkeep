@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.2.1] - 2026-07-04
+
+### Changed
+
+- Analytics now routed through a Cloudflare Worker proxy instead of calling Google Analytics directly, GA measurement ID and API secret no longer shipped in the extension bundle.
+
 ## [1.2.0] - 2026-07-03
 
 ### Added

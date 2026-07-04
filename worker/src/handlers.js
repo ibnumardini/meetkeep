@@ -40,7 +40,7 @@ export async function getActiveUsersToday(request, env) {
       body: JSON.stringify({
         dateRanges: [{ startDate: "today", endDate: "today" }],
         dimensions: [{ name: "eventName" }],
-        metrics: [{ name: "activeUsers" }],
+        metrics: [{ name: "eventCount" }],
         dimensionFilter: {
           filter: {
             fieldName: "eventName",

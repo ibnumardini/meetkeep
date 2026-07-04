@@ -61,6 +61,9 @@ export async function getActiveUsersToday(request, env) {
   const activeUsers = Number(report.rows?.[0]?.metricValues?.[0]?.value ?? 0);
 
   return new Response(JSON.stringify({ activeUsers }), {
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "https://ibnumardini.github.io",
+    },
   });
 }

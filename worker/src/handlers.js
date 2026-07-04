@@ -39,7 +39,14 @@ export async function getActiveUsersToday(request, env) {
       },
       body: JSON.stringify({
         dateRanges: [{ startDate: "today", endDate: "today" }],
+        dimensions: [{ name: "eventName" }],
         metrics: [{ name: "activeUsers" }],
+        dimensionFilter: {
+          filter: {
+            fieldName: "eventName",
+            stringFilter: { value: "extension_used" },
+          },
+        },
       }),
     },
   );

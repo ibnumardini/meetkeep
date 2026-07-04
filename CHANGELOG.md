@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.2.2] - 2026-07-04
+
+### Fixed
+
+- Duration always showing "after 0s" on the leave screen after confirming "Leave call".
+
 ## [1.2.1] - 2026-07-04
 
 ### Changed

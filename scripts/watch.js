@@ -12,11 +12,25 @@ function build() {
   }
 }
 
-build();
+function buildDocs() {
+  try {
+    execSync('bun scripts/build-docs.js', { cwd: root, stdio: 'inherit' });
+  } catch (e) {
+    console.error('Docs build failed');
+  }
+}
 
-chokidar.watch(['src', 'icons'], { cwd: root, ignoreInitial: true }).on('all', (event, file) => {
+build();
+buildDocs();
+
+chokidar.watch(['src/extension', 'assets'], { cwd: root, ignoreInitial: true }).on('all', (event, file) => {
   console.log(`${event}: ${file}`);
   build();
 });
 
-console.log('Watching src/ and icons/ ...');
+chokidar.watch('src/docs', { cwd: root, ignoreInitial: true }).on('all', (event, file) => {
+  console.log(`${event}: ${file}`);
+  buildDocs();
+});
+
+console.log('Watching src/extension/, src/docs/, and assets/ ...');

@@ -4,6 +4,7 @@
   "description": "A Chrome extension that automatically injects a meeting timer into Google Meet.",
   "scripts": {
     "build": "bun scripts/build.js",
+    "build:docs": "bun scripts/build-docs.js",
     "zip": "bun run build && bun scripts/zip.js",
     "watch": "bun scripts/watch.js"
   },

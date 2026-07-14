@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Privacy Policy - MeetKeep</title>
+  <meta name="description" content="MeetKeep privacy policy: what data the Chrome extension collects (an anonymous daily ping) and what it never collects.">
+  <link rel="canonical" href="https://ibnumardini.github.io/meetkeep/privacy.html">
+
+  <link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/ibnumardini/meetkeep/refs/heads/master/assets/icon-16.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="https://raw.githubusercontent.com/ibnumardini/meetkeep/refs/heads/master/assets/icon-48.png">
+  <link rel="icon" type="image/png" sizes="128x128" href="https://raw.githubusercontent.com/ibnumardini/meetkeep/refs/heads/master/assets/icon-128.png">
+
+  <script>
+    // Apply theme before paint to avoid flash
+    const saved = localStorage.getItem('theme') || 'system';
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'dark' || (saved === 'system' && prefersDark)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    }
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-neutral-50 dark:bg-stone-800 text-neutral-900 dark:text-neutral-100 antialiased transition-colors">
+
+  <!-- Nav -->
+  <nav class="sticky top-0 z-10 bg-neutral-50 dark:bg-stone-800 border-b border-neutral-200 dark:border-stone-700 px-8 py-4">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2 font-semibold text-sm no-underline">
+        <img src="https://raw.githubusercontent.com/ibnumardini/meetkeep/refs/heads/master/assets/icon-128.png" alt="MeetKeep icon" class="w-6 h-6">
+        MeetKeep
+      </a>
+      <div class="flex items-center gap-4">
+        <a href="index.html#releases" class="text-sm text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors no-underline">Releases</a>
+        <a href="https://github.com/ibnumardini/meetkeep" target="_blank" rel="noopener" class="flex items-center gap-1.5 text-sm text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors no-underline">
+          <span class="icon w-4 h-4" style="--icon:url('icons/github.svg')" aria-hidden="true"></span>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Privacy Policy -->
+  <section class="max-w-3xl mx-auto px-8 py-16">
+    <h1 class="text-3xl font-bold tracking-tight mb-2">Privacy Policy</h1>
+    <p class="text-sm text-neutral-500 mb-10">Last updated: 2026-07-14</p>
+
+    <div class="flex flex-col gap-6 text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
+      <p>
+        MeetKeep does not collect, store, or share any personally identifiable information, financial records, authentication details, or meeting contents.
+      </p>
+      <p>
+        The extension collects only a single anonymous daily ping to count active users. This ping contains no personal data and no meeting content, it's used solely to tell whether the extension is actually being used.
+      </p>
+      <p>
+        You can opt out of this ping at any time via the extension popup settings (click the MeetKeep icon in your toolbar and switch off <strong>Send anonymous usage data</strong>). It's on by default, and turning it off takes effect immediately.
+      </p>
+      <p>
+        Questions about this policy? Contact <a href="mailto:hi@mardini.dev" class="underline">hi@mardini.dev</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-neutral-200 dark:border-stone-700 py-8 text-center text-xs text-neutral-400">
+    Made by <a href="mailto:hi@mardini.dev" class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors no-underline">Muhammad Fatkurozi</a>
+    · <a href="https://github.com/ibnumardini/meetkeep/blob/master/LICENSE" target="_blank" rel="noopener" class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors no-underline">Apache-2.0</a>
+  </footer>
+
+</body>
+
+</html>

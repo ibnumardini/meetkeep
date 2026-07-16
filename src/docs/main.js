@@ -72,10 +72,13 @@ async function fetchReleases() {
 
 async function fetchActiveUsersToday() {
   const el = document.getElementById('active-users-today');
+  const dot = document.getElementById('active-users-today-dot');
   const text = document.getElementById('active-users-today-text');
   try {
     const data = await fetchActiveUsersTodayData();
     text.textContent = `${data.activeUsers} active user${data.activeUsers === 1 ? '' : 's'} today`;
+    dot.classList.toggle('bg-emerald-500', data.activeUsers > 0);
+    dot.classList.toggle('bg-neutral-400', data.activeUsers === 0);
     el.classList.remove('hidden');
   } catch {}
 }

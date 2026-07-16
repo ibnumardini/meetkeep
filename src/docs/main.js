@@ -1,11 +1,6 @@
 async function fetchLatestRelease() {
   try {
     const data = await fetchLatestReleaseData();
-    const asset = data.assets.find(a => a.name.endsWith('.zip'));
-    if (!asset) return;
-    document.querySelectorAll('.download-btn').forEach(el => {
-      el.href = asset.browser_download_url;
-    });
     const badge = document.getElementById('version-badge');
     badge.textContent = data.tag_name;
     badge.classList.remove('hidden');

@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.2.3] - 2026-07-18
+
+### Changed
+
+- Popup copy for analytics toggle updated ("Send ping analytics") and "Why?" link now points to the privacy policy page instead of the docs data-collection anchor.
+
 ## [1.2.2] - 2026-07-04
 
 ### Fixed

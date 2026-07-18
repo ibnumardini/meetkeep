@@ -23,3 +23,12 @@
     display: flex;
   }
 }
+
+.slider-slide {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.slider-slide.slider-active {
+  opacity: 1;
+}

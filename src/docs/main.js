@@ -98,11 +98,11 @@ function initBannerSlider() {
   });
 
   function show(i) {
-    slides[current].classList.add('hidden');
+    slides[current].classList.remove('slider-active');
     dotsWrap.children[current].classList.remove('bg-white');
     dotsWrap.children[current].classList.add('bg-white/60');
     current = i;
-    slides[current].classList.remove('hidden');
+    slides[current].classList.add('slider-active');
     dotsWrap.children[current].classList.remove('bg-white/60');
     dotsWrap.children[current].classList.add('bg-white');
   }

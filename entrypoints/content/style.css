@@ -1,0 +1,53 @@
+#browser-extension-start-buttons {
+  display: flex;
+  align-items: center;
+}
+
+#meetkeep-timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0 0.75rem;
+  height: 2.25rem;
+  padding: 0;
+  cursor: default;
+  user-select: none;
+  white-space: nowrap;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.meetkeep-separator {
+  align-self: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  width: 0.5rem;
+  flex-shrink: 0;
+  margin-left: 0.75rem;
+}
+
+.meetkeep-label--hover {
+  color: #FACC15 !important;
+}
+
+.meetkeep-label {
+  font-family: "Google Sans", Roboto, Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.00625em;
+  color: var(--hotlane-on-surface-variant-color, rgb(154, 160, 166));
+  line-height: 1.5rem;
+  text-transform: uppercase;
+}
+
+.meetkeep-display {
+  font-family: "Google Sans", Roboto, Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.00625em;
+  color: var(--gm3-sys-color-on-surface, #e3e3e3);
+  line-height: 1.5rem;
+  width: 5.5ch;
+  text-align: right;
+}

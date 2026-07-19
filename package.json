@@ -6,8 +6,8 @@
     "dev": "wxt",
     "build": "wxt build",
     "build:firefox": "wxt build -b firefox",
-    "zip": "wxt zip",
-    "zip:firefox": "wxt zip -b firefox",
+    "zip": "bun scripts/zip.js",
+    "zip:firefox": "bun scripts/zip.js -b firefox",
     "build:docs": "bun scripts/build-docs.js",
     "watch:docs": "bun scripts/watch-docs.js"
   },

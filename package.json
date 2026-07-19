@@ -3,10 +3,13 @@
   "version": "1.2.3",
   "description": "A Chrome extension that automatically injects a meeting timer into Google Meet.",
   "scripts": {
-    "build": "bun scripts/build.js",
+    "dev": "wxt",
+    "build": "wxt build",
+    "build:firefox": "wxt build -b firefox",
+    "zip": "wxt zip",
+    "zip:firefox": "wxt zip -b firefox",
     "build:docs": "bun scripts/build-docs.js",
-    "zip": "bun run build && bun scripts/zip.js",
-    "watch": "bun scripts/watch.js"
+    "watch:docs": "bun scripts/watch-docs.js"
   },
   "keywords": [
     "chrome-extension",
@@ -17,9 +20,17 @@
   "license": "Apache-2.0",
   "private": true,
   "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@wxt-dev/module-react": "^1.2.2",
     "archiver": "^8.0.0",
     "chokidar": "^5.0.0",
     "clean-css": "^5.3.3",
-    "terser": "^5.48.0"
+    "terser": "^5.48.0",
+    "wxt": "^0.20.27"
+  },
+  "dependencies": {
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   }
 }

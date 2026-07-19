@@ -7,10 +7,12 @@
 ## Development
 
 ```bash
-bun install        # install dependencies
-bun run build      # build to build/
-bun run watch      # build + watch for changes
-bun run zip        # build + package to dist/
+bun install           # install dependencies
+bun run dev           # dev server with HMR (Chrome)
+bun run build         # build to .output/chrome-mv3
+bun run build:firefox # build to .output/firefox-mv2
+bun run zip           # build + package to .output/
+bun run zip:firefox   # build + package Firefox to .output/
 ```
 
 ## Author

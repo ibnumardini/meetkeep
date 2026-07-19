@@ -8,5 +8,10 @@ export default defineConfig({
     author: 'Muhammad Fatkurozi',
     permissions: ['activeTab', 'storage'],
     host_permissions: ['https://meetkeep-analytics.mardini.workers.dev/*'],
+    icons: {
+      16: 'icon/16.png',
+      48: 'icon/48.png',
+      128: 'icon/128.png',
+    },
   },
 });

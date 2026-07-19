@@ -12,7 +12,8 @@ export default defineConfig({
     browser_specific_settings: {
       gecko: {
         data_collection_permissions: {
-          required: ['technicalAndInteraction'],
+          required: ['none'],
+          optional: ['technicalAndInteraction'],
         },
       },
     },

@@ -32,13 +32,13 @@ export default defineContentScript({
     let observer: MutationObserver | null = null;
     let customLabel = DEFAULT_LABEL;
 
-    chrome.storage.local.get('customLabel').then(({ customLabel: stored }) => {
+    chrome.storage.local.get<{ customLabel?: string }>(['customLabel']).then(({ customLabel: stored }) => {
       if (stored) customLabel = stored;
     });
 
-    chrome.storage.onChanged.addListener((changes) => {
+    chrome.storage.onChanged.addListener((changes: Record<string, chrome.storage.StorageChange>) => {
       if (changes.customLabel) {
-        customLabel = changes.customLabel.newValue || DEFAULT_LABEL;
+        customLabel = (changes.customLabel.newValue as string) || DEFAULT_LABEL;
         const label = document.querySelector(`#${TIMER_ID} .meetkeep-label`);
         if (label && !label.classList.contains('meetkeep-label--hover')) {
           label.textContent = customLabel;

@@ -7,10 +7,10 @@ export default function App() {
   const [label, setLabel] = useState(DEFAULT_LABEL);
 
   useEffect(() => {
-    chrome.storage.local.get('analyticsEnabled').then(({ analyticsEnabled: stored }) => {
+    chrome.storage.local.get<{ analyticsEnabled?: boolean }>(['analyticsEnabled']).then(({ analyticsEnabled: stored }) => {
       setAnalyticsEnabled(stored !== false);
     });
-    chrome.storage.local.get('customLabel').then(({ customLabel }) => {
+    chrome.storage.local.get<{ customLabel?: string }>(['customLabel']).then(({ customLabel }) => {
       setLabel(customLabel || DEFAULT_LABEL);
     });
   }, []);

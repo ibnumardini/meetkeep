@@ -5,7 +5,7 @@ export default defineConfig({
   manifest: {
     description: 'Automatically injects a meeting timer into Google Meet.',
     homepage_url: 'https://ibnumardini.github.io/meetkeep',
-    author: 'Muhammad Fatkurozi',
+    author: 'Muhammad Fatkurozi' as any,
     permissions: ['activeTab', 'storage'],
     host_permissions: ['https://meetkeep-analytics.mardini.workers.dev/*'],
     icons: {

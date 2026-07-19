@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.3.0] - 2026-07-19
+
+### Added
+
+- Firefox support: extension now builds for both Chrome and Firefox from the same codebase.
+
+### Changed
+
+- Rewrote the extension build on [WXT](https://wxt.dev), replacing the hand-rolled Bun build scripts.
+- Popup rebuilt with React (previously vanilla JS/HTML).
+
 ## [1.2.3] - 2026-07-18
 
 ### Changed

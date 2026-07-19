@@ -4,7 +4,7 @@ const { minify } = require('terser');
 const CleanCSS = require('clean-css');
 
 const root = path.join(__dirname, '..');
-const srcDir = path.join(root, 'src', 'docs');
+const srcDir = path.join(root, 'docs');
 const docsDir = path.join(root, 'build', 'docs');
 
 function copyDir(src, dest) {

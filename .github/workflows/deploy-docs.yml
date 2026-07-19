@@ -4,7 +4,7 @@ on:
   push:
     branches: [master]
     paths:
-      - 'src/docs/**'
+      - 'docs/**'
       - 'scripts/build-docs.js'
       - '.github/workflows/deploy-docs.yml'
   workflow_dispatch:

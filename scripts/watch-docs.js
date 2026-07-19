@@ -14,9 +14,9 @@ function buildDocs() {
 
 buildDocs();
 
-chokidar.watch('src/docs', { cwd: root, ignoreInitial: true }).on('all', (event, file) => {
+chokidar.watch('docs', { cwd: root, ignoreInitial: true }).on('all', (event, file) => {
   console.log(`${event}: ${file}`);
   buildDocs();
 });
 
-console.log('Watching src/docs ...');
+console.log('Watching docs/ ...');

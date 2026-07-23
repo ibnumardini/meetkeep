@@ -7,7 +7,7 @@ export default defineConfig({
     description: 'Automatically injects a meeting timer into Google Meet.',
     homepage_url: 'https://ibnumardini.github.io/meetkeep',
     author: 'Muhammad Fatkurozi' as any,
-    permissions: ['activeTab', 'storage'],
+    permissions: ['storage'],
     host_permissions: ['https://meetkeep-analytics.mardini.workers.dev/*'],
     browser_specific_settings: {
       gecko: {

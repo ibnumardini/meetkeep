@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.3.3] - 2026-07-24
+
+### Fixed
+
+- Removed the unused `activeTab` permission; the extension only ever uses `storage`.
+
 ## [1.3.2] - 2026-07-23
 
 ### Fixed

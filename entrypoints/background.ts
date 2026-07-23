@@ -6,15 +6,15 @@ export default defineBackground(() => {
   }
 
   async function getClientId() {
-    const { clientId } = await chrome.storage.local.get('clientId');
+    const { clientId } = await browser.storage.local.get('clientId');
     if (clientId) return clientId;
     const newId = crypto.randomUUID();
-    await chrome.storage.local.set({ clientId: newId });
+    await browser.storage.local.set({ clientId: newId });
     return newId;
   }
 
   async function shouldPing() {
-    const { analyticsEnabled, lastPingDate } = await chrome.storage.local.get([
+    const { analyticsEnabled, lastPingDate } = await browser.storage.local.get([
       'analyticsEnabled',
       'lastPingDate',
     ]);
@@ -26,7 +26,7 @@ export default defineBackground(() => {
     if (!(await shouldPing())) return;
 
     const clientId = await getClientId();
-    await chrome.storage.local.set({ lastPingDate: todayString() });
+    await browser.storage.local.set({ lastPingDate: todayString() });
 
     fetch(ANALYTICS_ENDPOINT, {
       method: 'POST',
@@ -37,7 +37,7 @@ export default defineBackground(() => {
     }).catch(() => {});
   }
 
-  chrome.runtime.onMessage.addListener((message) => {
+  browser.runtime.onMessage.addListener((message) => {
     if (message?.type === 'meetkeep_ping') pingUsage();
   });
 });

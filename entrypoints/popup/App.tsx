@@ -7,24 +7,24 @@ export default function App() {
   const [label, setLabel] = useState(DEFAULT_LABEL);
 
   useEffect(() => {
-    chrome.storage.local.get<{ analyticsEnabled?: boolean }>(['analyticsEnabled']).then(({ analyticsEnabled: stored }) => {
+    browser.storage.local.get(['analyticsEnabled']).then(({ analyticsEnabled: stored }) => {
       setAnalyticsEnabled(stored !== false);
     });
-    chrome.storage.local.get<{ customLabel?: string }>(['customLabel']).then(({ customLabel }) => {
-      setLabel(customLabel || DEFAULT_LABEL);
+    browser.storage.local.get(['customLabel']).then(({ customLabel }) => {
+      setLabel((customLabel as string) || DEFAULT_LABEL);
     });
   }, []);
 
   function handleToggleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const checked = e.target.checked;
     setAnalyticsEnabled(checked);
-    chrome.storage.local.set({ analyticsEnabled: checked });
+    browser.storage.local.set({ analyticsEnabled: checked });
   }
 
   function handleLabelChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = (e.target.value.trim() || DEFAULT_LABEL).toUpperCase();
     setLabel(value);
-    chrome.storage.local.set({ customLabel: value });
+    browser.storage.local.set({ customLabel: value });
   }
 
   return (

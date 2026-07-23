@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.3.2] - 2026-07-23
+
+### Fixed
+
+- Background script used `chrome.*` APIs directly, which aren't reliably defined in Firefox's background context, crashing on load and silently breaking the popup for Firefox users. Switched to the cross-browser `browser.*` API.
+
 ## [1.3.1] - 2026-07-19
 
 ### Fixed

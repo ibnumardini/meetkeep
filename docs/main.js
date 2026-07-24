@@ -43,7 +43,8 @@ function toggleMobileMenu() {
 }
 
 function renderReleaseBody(body) {
-  return marked.parse(body || '');
+  const stripped = (body || '').replace(/^\s*#*\s*\[.+?\]\s*-\s*\d{4}-\d{2}-\d{2}\s*\n?/, '');
+  return marked.parse(stripped);
 }
 
 async function fetchReleases() {

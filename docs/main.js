@@ -83,6 +83,45 @@ async function fetchActiveUsersToday() {
   } catch {}
 }
 
+const CHROME_STORE_URL = 'https://chromewebstore.google.com/detail/meetkeep-google-meet-time/alfmjoblaebokilgkgealdnlmmcdlped';
+const AMO_URL = 'https://addons.mozilla.org/en-US/firefox/addon/meetkeep-google-meet-timer/';
+const CHROME_ICON = 'https://www.gstatic.com/images/branding/product/2x/chrome_store_48dp.png';
+const FIREFOX_ICON = 'https://www.mozilla.org/media/protocol/img/logos/firefox/browser/logo.eb1324e44442.svg';
+
+function detectBrowser() {
+  const ua = navigator.userAgent;
+  if (/Zen\//.test(ua)) return { name: 'Zen', gecko: true };
+  if (/LibreWolf/.test(ua)) return { name: 'LibreWolf', gecko: true };
+  if (/Firefox\//.test(ua)) return { name: 'Firefox', gecko: true };
+  if (/Edg\//.test(ua)) return { name: 'Edge', gecko: false };
+  if (/OPR\//.test(ua)) return { name: 'Opera', gecko: false };
+  if (/Brave/.test(ua) || (navigator.brave && navigator.brave.isBrave)) return { name: 'Brave', gecko: false };
+  if (/ARC\//.test(ua) || /Arc\//.test(ua)) return { name: 'Arc', gecko: false };
+  if (/Chrome\//.test(ua)) return { name: 'Chrome', gecko: false };
+  return { name: 'Chrome', gecko: false };
+}
+
+function initStoreButtons() {
+  const browser = detectBrowser();
+  const btn = document.getElementById('primary-store-btn');
+  const icon = document.getElementById('primary-store-icon');
+  const label = document.getElementById('primary-store-label');
+  const secondary = document.getElementById('secondary-store-link');
+  if (!btn) return;
+
+  if (browser.gecko) {
+    btn.href = AMO_URL;
+    icon.src = FIREFOX_ICON;
+    label.textContent = 'Add to ' + browser.name;
+    secondary.innerHTML = 'Not using ' + browser.name + '? <a href="' + CHROME_STORE_URL + '" target="_blank" rel="noopener" class="underline">Add to Chrome</a> instead.';
+  } else {
+    btn.href = CHROME_STORE_URL;
+    icon.src = CHROME_ICON;
+    label.textContent = 'Add to ' + browser.name;
+    secondary.innerHTML = 'On Firefox? <a href="' + AMO_URL + '" target="_blank" rel="noopener" class="underline">Add to Firefox</a> instead.';
+  }
+}
+
 function initBannerSlider() {
   var slides = document.querySelectorAll('#banner-slider .slider-slide');
   if (!slides.length) return;
@@ -117,6 +156,7 @@ fetchLatestRelease();
 fetchReleases();
 fetchActiveUsersToday();
 initBannerSlider();
+initStoreButtons();
 updateToggle(localStorage.getItem('theme') || 'system');
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
   if ((localStorage.getItem('theme') || 'system') === 'system') setTheme('system');

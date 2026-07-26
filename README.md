@@ -4,6 +4,11 @@
 
 ![MeetKeep in action](https://raw.githubusercontent.com/ibnumardini/meetkeep/refs/heads/master/assets/banner/1.webp)
 
+## Store Listings
+
+[![Google Chrome](https://img.shields.io/badge/Google%20Chrome-4285F4?style=for-the-badge&logo=GoogleChrome&logoColor=white)](https://chromewebstore.google.com/detail/meetkeep-google-meet-time/alfmjoblaebokilgkgealdnlmmcdlped)
+[![Firefox](https://img.shields.io/badge/Firefox-FF7139?style=for-the-badge&logo=Firefox-Browser&logoColor=white)](https://addons.mozilla.org/en-US/firefox/addon/meetkeep-google-meet-timer/)
+
 ## Development
 
 ```bash

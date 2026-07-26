@@ -1,6 +1,6 @@
 # MeetKeep
 
-> Automatically injects a meeting timer into Google Meet.
+> A Chrome extension that automatically injects a meeting timer into Google Meet.
 
 ![MeetKeep in action](https://raw.githubusercontent.com/ibnumardini/meetkeep/refs/heads/master/assets/banner/1.webp)
 

@@ -97,7 +97,7 @@ function detectBrowser() {
   if (/Edg\//.test(ua)) return { name: 'Edge', gecko: false };
   if (/OPR\//.test(ua)) return { name: 'Opera', gecko: false };
   if (/Brave/.test(ua) || (navigator.brave && navigator.brave.isBrave)) return { name: 'Brave', gecko: false };
-  if (/ARC\//.test(ua) || /Arc\//.test(ua)) return { name: 'Arc', gecko: false };
+  if (getComputedStyle(document.documentElement).getPropertyValue('--arc-palette-title')) return { name: 'Arc', gecko: false };
   if (/Chrome\//.test(ua)) return { name: 'Chrome', gecko: false };
   return { name: 'Chrome', gecko: false };
 }

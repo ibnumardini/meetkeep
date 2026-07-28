@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.3.4] - 2026-07-27
+
+### Added
+
+- Header link to the MeetKeep website.
+- Footer with copyright and a link to the privacy policy.
+
+### Changed
+
+- Moved the "Why?" privacy explainer link from the analytics toggle row into the new footer.
+
 ## [1.3.3] - 2026-07-24
 
 ### Fixed

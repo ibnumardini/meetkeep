@@ -13,3 +13,6 @@ build/
 
 # Wrangler local state
 .wrangler/
+
+# Graphify output
+graphify-out/

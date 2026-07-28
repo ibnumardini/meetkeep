@@ -13,6 +13,13 @@ body {
 }
 .header img { width: 20px; height: 20px; }
 .header span { font-weight: 600; font-size: 13px; }
+.header-link {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  color: #666;
+}
+.header-link:hover { color: #000; }
 .row {
   display: flex;
   align-items: center;
@@ -24,11 +31,6 @@ body {
   font-size: 12px;
   line-height: 1.4;
   color: #444;
-}
-.row .label-group {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
 }
 .row a {
   font-size: 11px;
@@ -79,3 +81,19 @@ body {
 }
 input:checked + .slider { background: #1a73e8; }
 input:checked + .slider::before { transform: translateX(14px); }
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding: 8px 14px 12px;
+  border-top: 1px solid #e5e5e5;
+  font-size: 10px;
+  color: #999;
+}
+.footer a {
+  font-size: 10px;
+  color: #1a73e8;
+  text-decoration: none;
+}
+.footer a:hover { text-decoration: underline; }

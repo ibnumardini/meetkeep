@@ -13,8 +13,10 @@ export default defineContentScript({
     const LEAVE_TITLE_PATTERNS = [
       /you('ve| have)? left the meeting/i,
       /you('ve| have)? ended the meeting for everyone/i,
+      /your host ended the meeting for everyone/i,
       /anda (telah )?(keluar dari|meninggalkan) rapat/i,
       /anda (telah )?mengakhiri rapat untuk semua peserta/i,
+      /penyelenggara mengakhiri rapat untuk semua orang/i,
     ];
 
     const UNIT_LABELS = {

@@ -2,6 +2,48 @@ import { getAccessToken } from "./utils/auth.js";
 
 const GA_COLLECT_URL = "https://www.google-analytics.com/mp/collect";
 const GA_DATA_API_URL = "https://analyticsdata.googleapis.com/v1beta";
+const STORE_PAGE_URL =
+  "https://chromewebstore.google.com/detail/meetkeep-google-meet-time/alfmjoblaebokilgkgealdnlmmcdlped";
+
+async function sendAnalyticsPayload(env, payload) {
+  const gaUrl = `${GA_COLLECT_URL}?measurement_id=${env.GA_MEASUREMENT_ID}&api_secret=${env.GA_API_SECRET}`;
+
+  return fetch(gaUrl, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function collectStoreUsers(env) {
+  const storeResponse = await fetch(STORE_PAGE_URL, {
+    headers: { "Accept-Language": "id,en;q=0.9" },
+  });
+
+  if (!storeResponse.ok) {
+    throw new Error(`Chrome Web Store request failed: ${storeResponse.status}`);
+  }
+
+  const html = await storeResponse.text();
+  const match = html.match(/([\d.,]+)\s+(?:pengguna|users)\b/i);
+
+  if (!match) {
+    throw new Error("Chrome Web Store user count was not found");
+  }
+
+  const users = Number(match[1].replace(/[.,]/g, ""));
+  if (!Number.isSafeInteger(users)) {
+    throw new Error(`Invalid Chrome Web Store user count: ${match[1]}`);
+  }
+
+  const gaResponse = await sendAnalyticsPayload(env, {
+    client_id: "meetkeep-store-metrics",
+    events: [{ name: "extension_installed", params: { store_users: users } }],
+  });
+
+  if (!gaResponse.ok) {
+    throw new Error(`Google Analytics request failed: ${gaResponse.status}`);
+  }
+}
 
 export async function collectEvent(request, env) {
   let body;
@@ -16,12 +58,7 @@ export async function collectEvent(request, env) {
     return new Response("Missing client_id or events", { status: 400 });
   }
 
-  const gaUrl = `${GA_COLLECT_URL}?measurement_id=${env.GA_MEASUREMENT_ID}&api_secret=${env.GA_API_SECRET}`;
-
-  const gaResponse = await fetch(gaUrl, {
-    method: "POST",
-    body: JSON.stringify({ client_id, events }),
-  });
+  const gaResponse = await sendAnalyticsPayload(env, { client_id, events });
 
   return new Response(null, { status: gaResponse.status });
 }

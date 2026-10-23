@@ -2,6 +2,10 @@ name = "meetkeep-analytics"
 main = "function/index.js"
 compatibility_date = "2024-01-01"
 
+[triggers]
+# Cloudflare Cron uses UTC; 17:00 UTC is 00:00 WIB.
+crons = ["0 17 * * *"]
+
 # Set secrets via CLI, not here:
 #   wrangler secret put GA_MEASUREMENT_ID
 #   wrangler secret put GA_API_SECRET

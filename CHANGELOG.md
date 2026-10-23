@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.3.5] - 2026-10-23
+
+### Added
+
+- Added leave-title patterns for "Your host ended the meeting for everyone" and "Penyelenggara mengakhiri rapat untuk semua orang".
+- Added a daily Cloudflare Worker scheduler that tracks the Chrome Web Store user count in Google Analytics as `extension_installed`.
+
 ## [1.3.4] - 2026-07-27
 
 ### Added

@@ -28,3 +28,7 @@ function fetchReleasesData() {
 function fetchActiveUsersTodayData() {
   return fetchJsonCached(`${ANALYTICS_ENDPOINT}/active-users-today`, 'mk_active_users_today');
 }
+
+function fetchStoreUsersData() {
+  return fetchJsonCached(`${ANALYTICS_ENDPOINT}/store-users`, 'mk_store_users');
+}

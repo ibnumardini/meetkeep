@@ -2,11 +2,13 @@ import {
   collectEvent,
   collectStoreUsers,
   getActiveUsersToday,
+  getStoreUsers,
 } from "./handlers.js";
 import { route } from "./utils/router.js";
 
 const routes = {
   "GET /active-users-today": getActiveUsersToday,
+  "GET /store-users": getStoreUsers,
   "POST /": collectEvent,
 };
 

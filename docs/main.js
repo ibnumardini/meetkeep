@@ -84,6 +84,30 @@ async function fetchActiveUsersToday() {
   } catch {}
 }
 
+let storeUserCount = null;
+let primaryBrowser = null;
+
+function updatePrimaryStoreLabel() {
+  const label = document.getElementById('primary-store-label');
+  label.textContent = "asd";
+  if (!label || !primaryBrowser) return;
+  let text = 'Add to ' + primaryBrowser.name;
+  if (!primaryBrowser.gecko && Number.isInteger(storeUserCount) && storeUserCount > 0) {
+    const unit = storeUserCount === 1 ? 'user' : 'users';
+    text += ` (${storeUserCount.toLocaleString('en-US')} ${unit})`;
+  }
+  label.textContent = text;
+}
+
+async function fetchStoreUsers() {
+  try {
+    const data = await fetchStoreUsersData();
+    if (!Number.isInteger(data.users) || data.users <= 0) return;
+    storeUserCount = data.users;
+    updatePrimaryStoreLabel();
+  } catch {}
+}
+
 const CHROME_STORE_URL = 'https://chromewebstore.google.com/detail/meetkeep-google-meet-time/alfmjoblaebokilgkgealdnlmmcdlped';
 const AMO_URL = 'https://addons.mozilla.org/en-US/firefox/addon/meetkeep-google-meet-timer/';
 const CHROME_ICON = 'https://www.gstatic.com/images/branding/product/2x/chrome_store_48dp.png';
@@ -106,21 +130,21 @@ function initStoreButtons() {
   const browser = detectBrowser();
   const btn = document.getElementById('primary-store-btn');
   const icon = document.getElementById('primary-store-icon');
-  const label = document.getElementById('primary-store-label');
   const secondary = document.getElementById('secondary-store-link');
   if (!btn) return;
+  primaryBrowser = browser;
 
   if (browser.gecko) {
     btn.href = AMO_URL;
     icon.src = FIREFOX_ICON;
-    label.textContent = 'Add to ' + browser.name;
     secondary.innerHTML = 'Not using ' + browser.name + '? <a href="' + CHROME_STORE_URL + '" target="_blank" rel="noopener" class="underline">Add to Chrome</a> instead.';
   } else {
     btn.href = CHROME_STORE_URL;
     icon.src = CHROME_ICON;
-    label.textContent = 'Add to ' + browser.name;
     secondary.innerHTML = 'On Firefox? <a href="' + AMO_URL + '" target="_blank" rel="noopener" class="underline">Add to Firefox</a> instead.';
   }
+
+  updatePrimaryStoreLabel();
 }
 
 function initBannerSlider() {
@@ -156,6 +180,7 @@ function initBannerSlider() {
 fetchLatestRelease();
 fetchReleases();
 fetchActiveUsersToday();
+fetchStoreUsers();
 initBannerSlider();
 initStoreButtons();
 updateToggle(localStorage.getItem('theme') || 'system');

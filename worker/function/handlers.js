@@ -14,7 +14,7 @@ async function sendAnalyticsPayload(env, payload) {
   });
 }
 
-export async function collectStoreUsers(env) {
+async function fetchStoreUserCount() {
   const storeResponse = await fetch(STORE_PAGE_URL, {
     headers: { "Accept-Language": "id,en;q=0.9" },
   });
@@ -35,6 +35,12 @@ export async function collectStoreUsers(env) {
     throw new Error(`Invalid Chrome Web Store user count: ${match[1]}`);
   }
 
+  return users;
+}
+
+export async function collectStoreUsers(env) {
+  const users = await fetchStoreUserCount();
+
   const gaResponse = await sendAnalyticsPayload(env, {
     client_id: "meetkeep-store-metrics",
     events: [{ name: "extension_installed", params: { store_users: users } }],
@@ -42,6 +48,37 @@ export async function collectStoreUsers(env) {
 
   if (!gaResponse.ok) {
     throw new Error(`Google Analytics request failed: ${gaResponse.status}`);
+  }
+}
+
+export async function getStoreUsers(request) {
+  const cache = caches.default;
+  const cacheKey = new Request(new URL("/store-users", request.url), {
+    method: "GET",
+  });
+  const cached = await cache.match(cacheKey);
+  if (cached) return cached;
+
+  try {
+    const users = await fetchStoreUserCount();
+    const response = new Response(JSON.stringify({ users }), {
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "public, max-age=21600",
+      },
+    });
+    await cache.put(cacheKey, response.clone());
+    return response;
+  } catch (error) {
+    console.error("Failed to read Chrome Web Store users:", error);
+    return new Response(JSON.stringify({ error: "Store users unavailable" }), {
+      status: 502,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
   }
 }
 

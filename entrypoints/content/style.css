@@ -4,6 +4,10 @@
   margin-right: .7rem;
 }
 
+#browser-extension-start-buttons:has(#meetkeep-separator) {
+  margin: 0;
+}
+
 #meetkeep-timer {
   display: flex;
   align-items: center;

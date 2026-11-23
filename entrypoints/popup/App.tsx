@@ -93,7 +93,10 @@ export default function App({
           <span className="brand-mark">
             <img src="/icon/48.png" alt="" width={18} height={18} />
           </span>
-          <h1>MeetKeep</h1>
+          <div className="brand-copy">
+            <h1>MeetKeep</h1>
+            <p className="brand-sub">Google Meet Timer &amp; Enhancer</p>
+          </div>
         </div>
         <div className="header-actions">
           <button

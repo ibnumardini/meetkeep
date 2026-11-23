@@ -34,6 +34,7 @@ export default defineContentScript({
     let observer: MutationObserver | null = null;
     let customLabel = DEFAULT_LABEL;
     let isEnabled = true;
+    let currentPath = location.pathname;
 
     chrome.storage.onChanged.addListener((changes: Record<string, chrome.storage.StorageChange>) => {
       if (changes.customLabel) {
@@ -91,14 +92,17 @@ export default defineContentScript({
     }
 
     function appendDurationToLeaveTitle() {
-      if (!isEnabled) return;
       const h1 = document.querySelector('h1') as HTMLElement | null;
-      if (!h1 || h1.dataset.meetkeepTagged) return;
+      if (!h1) return;
       if (!isLeaveTitle(h1.textContent || '')) return;
 
       if (elapsedAtLeave == null) {
         elapsedAtLeave = startTime ? Date.now() - startTime : 0;
       }
+      startTime = null;
+      removeTimer();
+
+      if (!isEnabled || h1.dataset.meetkeepTagged) return;
 
       const lang = detectLang();
       const suffix = lang
@@ -168,11 +172,12 @@ export default defineContentScript({
       });
       label.addEventListener('click', () => {
         startTime = Date.now();
+        tick();
       });
 
       const display = document.createElement('span');
       display.className = 'meetkeep-display';
-      display.textContent = '00:00:00';
+      display.textContent = startTime ? formatElapsed(Date.now() - startTime) : '00:00:00';
 
       wrapper.appendChild(label);
       wrapper.appendChild(display);
@@ -203,18 +208,23 @@ export default defineContentScript({
         if (document.getElementById(TIMER_ID)) return;
         if (!isStillOnPrejoinScreen()) return;
 
-        startTime = Date.now();
+        const isNewSession = startTime === null;
+        if (isNewSession) {
+          startTime = Date.now();
+        }
         elapsedAtLeave = null;
 
         const timer = buildTimerElement();
         target.prepend(timer);
 
+        tick();
         if (!tickInterval) {
-          tick();
           tickInterval = setInterval(tick, TICK_INTERVAL_MS);
         }
 
-        chrome.runtime.sendMessage({ type: 'meetkeep_ping' }).catch(() => {});
+        if (isNewSession) {
+          chrome.runtime.sendMessage({ type: 'meetkeep_ping' }).catch(() => {});
+        }
       }, 300);
     }
 
@@ -271,6 +281,11 @@ export default defineContentScript({
     }
 
     function handleNavigation() {
+      if (location.pathname !== currentPath) {
+        currentPath = location.pathname;
+        startTime = null;
+        elapsedAtLeave = null;
+      }
       removeTimer();
       if (isEnabled) startPolling();
     }

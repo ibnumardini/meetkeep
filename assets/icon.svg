@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" fill="none">
+  <!-- Rounded dark charcoal app-icon tile -->
+  <rect width="128" height="128" rx="30" fill="#18181B" />
+
+  <g transform="translate(11.52 11.52) scale(0.82)">
+    <!-- Borderless clock ring with 45-degree bevel gap at top-right -->
+    <path
+      d="M 96.07 15.67
+         A 58 58 0 1 0 117.91 42.62
+         L 108.43 52.09
+         A 46 46 0 1 1 87.36 24.37
+         Z"
+      fill="#A78BFA"
+      stroke="#A78BFA"
+      stroke-width="3.6"
+      stroke-linejoin="round"
+    />
+
+    <!-- Cardinal hour marks: 12 o'clock '+' enhancer mark + 6, 9, 3 o'clock dots -->
+    <path
+      d="M 64 23.5 V 33.5 M 59 28.5 H 69"
+      stroke="#A78BFA"
+      stroke-width="3.8"
+      stroke-linecap="round"
+    />
+    <circle cx="64" cy="100.5" r="4.4" fill="#A78BFA" />
+    <circle cx="27.5" cy="64" r="4.4" fill="#A78BFA" />
+    <circle cx="100.5" cy="64" r="4.4" fill="#A78BFA" />
+
+    <!-- Borderless checkmark extending through top-right ring gap -->
+    <path
+      d="M 40.5 57.5
+         L 50.1 47.9
+         L 64 61.8
+         L 114.5 11.3
+         L 124.1 20.9
+         L 64 81
+         Z"
+      fill="#4ADE80"
+      stroke="#4ADE80"
+      stroke-width="3.6"
+      stroke-linejoin="round"
+    />
+  </g>
+</svg>

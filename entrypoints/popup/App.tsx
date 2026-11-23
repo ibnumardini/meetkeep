@@ -16,6 +16,13 @@ function isIndonesianUser() {
   }
 }
 
+function formatPreviewTime(totalSeconds: number) {
+  const hh = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+  const mm = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+  const ss = String(totalSeconds % 60).padStart(2, '0');
+  return `${hh}:${mm}:${ss}`;
+}
+
 type AppProps = {
   initialEnabled?: boolean;
   initialAnalytics?: boolean;
@@ -33,7 +40,15 @@ export default function App({
   const [analyticsEnabled, setAnalyticsEnabled] = useState(initialAnalytics);
   const [label, setLabel] = useState(initialLabel);
   const [error, setError] = useState<string | null>(initialError);
+  const [previewSeconds, setPreviewSeconds] = useState(0);
   const turnOnBtnRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setPreviewSeconds((s) => s + 1);
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
 
   useEffect(() => {
     if (!enabled) {
@@ -84,103 +99,40 @@ export default function App({
   const isIndonesian = isIndonesianUser();
   const supportUrl = isIndonesian ? TRAKTEER_URL : KOFI_URL;
   const supportTitle = isIndonesian ? 'Traktir kopi di Trakteer' : 'Support on Ko-fi';
+  const supportLabel = isIndonesian ? 'Trakteer' : 'Ko-fi';
   const version = browser.runtime.getManifest().version;
 
   return (
     <div className="popup">
       <div className="popup-body" inert={!enabled}>
         <header className="header">
-        <div className="brand">
-          <span className="brand-mark">
-            <img src="/icon/48.png" alt="" width={18} height={18} />
-          </span>
-          <div className="brand-copy">
-            <div className="brand-title-row">
-              <h1>MeetKeep</h1>
-              <span className="version-pill">v{version}</span>
+          <div className="brand">
+            <span className="brand-mark">
+              <img src="/icon/48.png" alt="" width={30} height={30} />
+            </span>
+            <div className="brand-copy">
+              <div className="brand-title-row">
+                <h1>MeetKeep</h1>
+                <span className="version-pill">v{version}</span>
+              </div>
+              <p className="brand-sub">Google Meet Timer &amp; Enhancer</p>
             </div>
-            <p className="brand-sub">Google Meet Timer &amp; Enhancer</p>
           </div>
-        </div>
-        <div className="header-actions">
           <button
             type="button"
             role="switch"
             aria-checked={enabled}
             aria-label={enabled ? 'Turn MeetKeep timer off' : 'Turn MeetKeep timer on'}
             title={enabled ? 'Timer ON' : 'Timer OFF'}
-            className={`power-btn${enabled ? ' power-btn--on' : ''}`}
+            className={`power-switch${enabled ? ' power-switch--on' : ''}`}
             onClick={handleEnabledToggle}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.4"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M12 2v10" />
-              <path d="M18.4 6.6a9 9 0 1 1-12.77.04" />
-            </svg>
+            <span className="power-switch-label" aria-hidden="true">
+              {enabled ? 'ON' : 'OFF'}
+            </span>
+            <span className="power-switch-thumb" aria-hidden="true" />
           </button>
-          <a
-            href={supportUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="icon-btn icon-btn--support"
-            aria-label={supportTitle}
-            title={supportTitle}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M17 8h1a4 4 0 1 1 0 8h-1" />
-              <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" />
-              <line x1="6" y1="2" x2="6" y2="4" />
-              <line x1="10" y1="2" x2="10" y2="4" />
-              <line x1="14" y1="2" x2="14" y2="4" />
-            </svg>
-          </a>
-          <a
-            href="https://ibnumardini.github.io/meetkeep/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="icon-btn"
-            aria-label="Open MeetKeep website"
-            title="MeetKeep website"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M7 17L17 7" />
-              <path d="M8 7h9v9" />
-            </svg>
-          </a>
-        </div>
-      </header>
+        </header>
 
       <main className="content">
         {error && (
@@ -197,7 +149,7 @@ export default function App({
               </label>
               <div className="preview-pill" aria-hidden="true">
                 <span className="preview-label">{displayLabel}</span>
-                <span className="preview-time">00:00:00</span>
+                <span className="preview-time">{formatPreviewTime(previewSeconds)}</span>
               </div>
             </div>
             <p className="card-desc">Shown beside the Meet timer</p>
@@ -247,14 +199,53 @@ export default function App({
       </main>
 
         <footer className="footer">
-          <span>© {new Date().getFullYear()} MeetKeep</span>
+          <div className="footer-meta">
+            <span>© {new Date().getFullYear()}</span>
+            <span className="footer-dot" aria-hidden="true">·</span>
+            <a
+              href="https://ibnumardini.github.io/meetkeep/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-link"
+            >
+              Website
+            </a>
+            <span className="footer-dot" aria-hidden="true">·</span>
+            <a
+              href="https://ibnumardini.github.io/meetkeep/privacy.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-link"
+            >
+              Privacy
+            </a>
+          </div>
           <a
-            href="https://ibnumardini.github.io/meetkeep/privacy.html"
+            href={supportUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="footer-link"
+            title={supportTitle}
+            className="footer-badge-support"
           >
-            Privacy Policy
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M17 8h1a4 4 0 1 1 0 8h-1" />
+              <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" />
+              <line x1="6" y1="2" x2="6" y2="4" />
+              <line x1="10" y1="2" x2="10" y2="4" />
+              <line x1="14" y1="2" x2="14" y2="4" />
+            </svg>
+            <span>{supportLabel}</span>
           </a>
         </footer>
       </div>

@@ -2,6 +2,25 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.4.0] - 2026-11-23
+
+### Added
+
+- Extension ON/OFF toggle button in the popup header with a paused state modal that disables and re-enables the timer live in Google Meet.
+- Support button in the popup header and docs site that routes Indonesian users to Trakteer and international users to Ko-fi.
+- Live timer preview pill, inline character counter (`max 6` / `N left`), and version badge in the popup.
+
+### Changed
+
+- Redesigned the extension popup and docs website with a card-based editorial layout and Manrope / Chivo typography.
+- Updated extension manifest title to "MeetKeep - Google Meet Timer & Enhancer".
+- Removed `#browser-extension-start-buttons` right margin automatically when `#meetkeep-separator` is present.
+
+### Fixed
+
+- Timer no longer resets to `00:00:00` when changing popup settings, reconnecting after a connection drop, or reloading the tab during an active meeting.
+- Eliminated initial toggle blink when opening the extension popup by loading saved storage state before mount.
+
 ## [1.3.5] - 2026-10-23
 
 ### Added

@@ -33,10 +33,7 @@ export default defineContentScript({
     let pollInterval: ReturnType<typeof setInterval> | null = null;
     let observer: MutationObserver | null = null;
     let customLabel = DEFAULT_LABEL;
-
-    chrome.storage.local.get<{ customLabel?: string }>(['customLabel']).then(({ customLabel: stored }) => {
-      if (stored) customLabel = stored;
-    });
+    let isEnabled = true;
 
     chrome.storage.onChanged.addListener((changes: Record<string, chrome.storage.StorageChange>) => {
       if (changes.customLabel) {
@@ -44,6 +41,20 @@ export default defineContentScript({
         const label = document.querySelector(`#${TIMER_ID} .meetkeep-label`);
         if (label && !label.classList.contains('meetkeep-label--hover')) {
           label.textContent = customLabel;
+        }
+      }
+      if (changes.enabled) {
+        isEnabled = changes.enabled.newValue !== false;
+        if (!isEnabled) {
+          removeTimer();
+          if (pollInterval) {
+            clearInterval(pollInterval);
+            pollInterval = null;
+          }
+        } else if (!tryInject()) {
+          startPolling();
+        } else {
+          startObserver();
         }
       }
     });
@@ -80,6 +91,7 @@ export default defineContentScript({
     }
 
     function appendDurationToLeaveTitle() {
+      if (!isEnabled) return;
       const h1 = document.querySelector('h1') as HTMLElement | null;
       if (!h1 || h1.dataset.meetkeepTagged) return;
       if (!isLeaveTitle(h1.textContent || '')) return;
@@ -176,6 +188,7 @@ export default defineContentScript({
     }
 
     function injectTimer(target: HTMLElement) {
+      if (!isEnabled) return;
       if (document.getElementById(TIMER_ID)) return;
       if (document.getElementById('meetkeep-pending-inject')) return;
 
@@ -186,6 +199,7 @@ export default defineContentScript({
       setTimeout(() => {
         marker.remove();
 
+        if (!isEnabled) return;
         if (document.getElementById(TIMER_ID)) return;
         if (!isStillOnPrejoinScreen()) return;
 
@@ -258,7 +272,7 @@ export default defineContentScript({
 
     function handleNavigation() {
       removeTimer();
-      startPolling();
+      if (isEnabled) startPolling();
     }
 
     const _pushState = history.pushState.bind(history);
@@ -275,10 +289,17 @@ export default defineContentScript({
 
     window.addEventListener('popstate', handleNavigation);
 
-    if (!tryInject()) {
-      startPolling();
-    } else {
-      startObserver();
-    }
+    chrome.storage.local
+      .get<{ customLabel?: string; enabled?: boolean }>(['customLabel', 'enabled'])
+      .then(({ customLabel: stored, enabled: storedEnabled }) => {
+        if (stored) customLabel = stored;
+        isEnabled = storedEnabled !== false;
+        if (!isEnabled) return;
+        if (!tryInject()) {
+          startPolling();
+        } else {
+          startObserver();
+        }
+      });
   },
 });

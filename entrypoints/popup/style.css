@@ -48,6 +48,10 @@ input:focus-visible {
 }
 
 .popup {
+  position: relative;
+}
+
+.popup-body {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -90,6 +94,45 @@ input:focus-visible {
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--ink-primary);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.power-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 9999px;
+  border: 1px solid var(--border-control);
+  background: var(--bg-surface);
+  color: var(--ink-secondary);
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.power-btn:hover {
+  border-color: var(--ink-primary);
+  color: var(--ink-primary);
+}
+
+.power-btn:active {
+  transform: scale(0.95);
+}
+
+.power-btn--on {
+  background: var(--ink-primary);
+  border-color: var(--ink-primary);
+  color: var(--accent-green);
+}
+
+.power-btn--on:hover {
+  color: #ffffff;
 }
 
 .icon-btn {
@@ -342,15 +385,75 @@ input:focus-visible {
   color: var(--ink-secondary);
 }
 
+.off-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  background: rgba(24, 24, 27, 0.36);
+  backdrop-filter: blur(3px);
+}
+
+.off-modal {
+  width: 100%;
+  max-width: 196px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 14px;
+  border-radius: 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 8px 20px rgba(24, 24, 27, 0.14);
+}
+
+.off-modal-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink-primary);
+}
+
+.btn-turn-on {
+  width: 100%;
+  padding: 7px 14px;
+  border: none;
+  border-radius: 9999px;
+  background: var(--ink-primary);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.btn-turn-on:hover {
+  color: var(--accent-green);
+}
+
+.btn-turn-on:active {
+  transform: scale(0.98);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .power-btn,
   .icon-btn,
   .label-input,
   .slider,
-  .slider::before {
+  .slider::before,
+  .btn-turn-on {
     transition: none;
   }
 
-  .icon-btn:active {
+  .power-btn:active,
+  .icon-btn:active,
+  .btn-turn-on:active {
     transform: none;
   }
 }

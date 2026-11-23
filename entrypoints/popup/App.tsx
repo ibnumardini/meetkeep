@@ -1,22 +1,44 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export const DEFAULT_LABEL = 'MK';
 const MAX_LABEL_LENGTH = 6;
 
 type AppProps = {
+  initialEnabled?: boolean;
   initialAnalytics?: boolean;
   initialLabel?: string;
   initialError?: string | null;
 };
 
 export default function App({
+  initialEnabled = true,
   initialAnalytics = true,
   initialLabel = DEFAULT_LABEL,
   initialError = null,
 }: AppProps) {
+  const [enabled, setEnabled] = useState(initialEnabled);
   const [analyticsEnabled, setAnalyticsEnabled] = useState(initialAnalytics);
   const [label, setLabel] = useState(initialLabel);
   const [error, setError] = useState<string | null>(initialError);
+  const turnOnBtnRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!enabled) {
+      turnOnBtnRef.current?.focus();
+    }
+  }, [enabled]);
+
+  function setExtensionEnabled(next: boolean) {
+    setEnabled(next);
+    setError(null);
+    browser.storage.local.set({ enabled: next }).catch(() => {
+      setError('Could not save extension state.');
+    });
+  }
+
+  function handleEnabledToggle() {
+    setExtensionEnabled(!enabled);
+  }
 
   function handleToggleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const checked = e.target.checked;
@@ -49,37 +71,65 @@ export default function App({
 
   return (
     <div className="popup">
-      <header className="header">
+      <div className="popup-body" inert={!enabled}>
+        <header className="header">
         <div className="brand">
           <span className="brand-mark">
             <img src="/icon/48.png" alt="" width={18} height={18} />
           </span>
           <h1>MeetKeep</h1>
         </div>
-        <a
-          href="https://ibnumardini.github.io/meetkeep/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="icon-btn"
-          aria-label="Open MeetKeep website"
-          title="MeetKeep website"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="15"
-            height="15"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
+        <div className="header-actions">
+          <button
+            type="button"
+            role="switch"
+            aria-checked={enabled}
+            aria-label={enabled ? 'Turn MeetKeep timer off' : 'Turn MeetKeep timer on'}
+            title={enabled ? 'Timer ON' : 'Timer OFF'}
+            className={`power-btn${enabled ? ' power-btn--on' : ''}`}
+            onClick={handleEnabledToggle}
           >
-            <path d="M7 17L17 7" />
-            <path d="M8 7h9v9" />
-          </svg>
-        </a>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M12 2v10" />
+              <path d="M18.4 6.6a9 9 0 1 1-12.77.04" />
+            </svg>
+          </button>
+          <a
+            href="https://ibnumardini.github.io/meetkeep/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="icon-btn"
+            aria-label="Open MeetKeep website"
+            title="MeetKeep website"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M7 17L17 7" />
+              <path d="M8 7h9v9" />
+            </svg>
+          </a>
+        </div>
       </header>
 
       <main className="content">
@@ -146,17 +196,36 @@ export default function App({
         </section>
       </main>
 
-      <footer className="footer">
-        <span>© {new Date().getFullYear()} MeetKeep</span>
-        <a
-          href="https://ibnumardini.github.io/meetkeep/privacy.html"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="footer-link"
-        >
-          Privacy Policy
-        </a>
-      </footer>
+        <footer className="footer">
+          <span>© {new Date().getFullYear()} MeetKeep</span>
+          <a
+            href="https://ibnumardini.github.io/meetkeep/privacy.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-link"
+          >
+            Privacy Policy
+          </a>
+        </footer>
+      </div>
+
+      {!enabled && (
+        <div className="off-overlay" role="dialog" aria-modal="true" aria-labelledby="off-modal-title">
+          <div className="off-modal">
+            <h2 id="off-modal-title" className="off-modal-title">
+              MeetKeep is off
+            </h2>
+            <button
+              ref={turnOnBtnRef}
+              type="button"
+              className="btn-turn-on"
+              onClick={() => setExtensionEnabled(true)}
+            >
+              Turn on
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

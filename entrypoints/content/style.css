@@ -1,6 +1,7 @@
 #browser-extension-start-buttons {
   display: flex;
   align-items: center;
+  margin-right: .7rem;
 }
 
 #meetkeep-timer {

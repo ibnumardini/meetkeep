@@ -159,6 +159,18 @@ input:focus-visible {
   transform: scale(0.95);
 }
 
+.icon-btn--support {
+  background: #fef3c7;
+  border-color: #b45309;
+  color: #78350f;
+}
+
+.icon-btn--support:hover {
+  background: #78350f;
+  border-color: #78350f;
+  color: #fef3c7;
+}
+
 .content {
   display: flex;
   flex-direction: column;

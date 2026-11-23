@@ -84,6 +84,7 @@ export default function App({
   const isIndonesian = isIndonesianUser();
   const supportUrl = isIndonesian ? TRAKTEER_URL : KOFI_URL;
   const supportTitle = isIndonesian ? 'Traktir kopi di Trakteer' : 'Support on Ko-fi';
+  const version = browser.runtime.getManifest().version;
 
   return (
     <div className="popup">
@@ -94,7 +95,10 @@ export default function App({
             <img src="/icon/48.png" alt="" width={18} height={18} />
           </span>
           <div className="brand-copy">
-            <h1>MeetKeep</h1>
+            <div className="brand-title-row">
+              <h1>MeetKeep</h1>
+              <span className="version-pill">v{version}</span>
+            </div>
             <p className="brand-sub">Google Meet Timer &amp; Enhancer</p>
           </div>
         </div>

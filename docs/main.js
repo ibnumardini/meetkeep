@@ -2,9 +2,14 @@ async function fetchLatestRelease() {
   try {
     const data = await fetchLatestReleaseData();
     const badge = document.getElementById('version-badge');
-    if (!badge) return;
-    badge.textContent = data.tag_name;
-    badge.classList.remove('hidden');
+    if (badge) {
+      badge.textContent = data.tag_name;
+      badge.classList.remove('hidden');
+    }
+    document.querySelectorAll('[data-version-badge]').forEach((el) => {
+      el.textContent = data.tag_name;
+      el.classList.remove('hidden');
+    });
   } catch {}
 }
 

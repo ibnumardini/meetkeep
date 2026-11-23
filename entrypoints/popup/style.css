@@ -95,6 +95,12 @@ input:focus-visible {
   min-width: 0;
 }
 
+.brand-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .brand h1 {
   margin: 0;
   font-size: 15px;
@@ -102,6 +108,19 @@ input:focus-visible {
   line-height: 1.15;
   letter-spacing: -0.02em;
   color: var(--ink-primary);
+}
+
+.version-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: 9999px;
+  background: var(--bg-lavender);
+  color: var(--ink-primary);
+  font-size: 9.5px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
 }
 
 .brand-sub {

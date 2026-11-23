@@ -2,6 +2,19 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.4.1] - 2026-11-24
+
+### Added
+
+- Live ticking timer simulation in the popup preview pill.
+
+### Changed
+
+- Refreshed extension icons from a vector SVG master with a dark rounded tile and a 12 o'clock `+` enhancer mark.
+- Updated the popup header toggle to an inline-label `ON`/`OFF` switch and moved Website and Trakteer/Ko-fi support badge into the footer.
+- Changed the Meet timer `RESET` hover label color from yellow to the green brand accent (`#4ADE80`).
+- Added soft tactile depth to popup and docs cards.
+
 ## [1.4.0] - 2026-11-23
 
 ### Added

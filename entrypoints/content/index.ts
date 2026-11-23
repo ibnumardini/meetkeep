@@ -26,15 +26,34 @@ export default defineContentScript({
 
     const AFTER_LABELS = { id: 'setelah', en: 'after' };
     const DEFAULT_LABEL = 'MK';
+    const SESSION_KEY = 'meetkeep_session';
 
-    let startTime: number | null = null;
+    function loadSessionStart(path: string): number | null {
+      try {
+        const raw = sessionStorage.getItem(SESSION_KEY);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw) as { path?: string; startTime?: number };
+        if (parsed.path === path && typeof parsed.startTime === 'number') {
+          return parsed.startTime;
+        }
+      } catch {}
+      return null;
+    }
+
+    function saveSessionStart(path: string, time: number) {
+      try {
+        sessionStorage.setItem(SESSION_KEY, JSON.stringify({ path, startTime: time }));
+      } catch {}
+    }
+
+    let currentPath = location.pathname;
+    let startTime: number | null = loadSessionStart(currentPath);
     let elapsedAtLeave: number | null = null;
     let tickInterval: ReturnType<typeof setInterval> | null = null;
     let pollInterval: ReturnType<typeof setInterval> | null = null;
     let observer: MutationObserver | null = null;
     let customLabel = DEFAULT_LABEL;
     let isEnabled = true;
-    let currentPath = location.pathname;
 
     chrome.storage.onChanged.addListener((changes: Record<string, chrome.storage.StorageChange>) => {
       if (changes.customLabel) {
@@ -97,9 +116,9 @@ export default defineContentScript({
       if (!isLeaveTitle(h1.textContent || '')) return;
 
       if (elapsedAtLeave == null) {
-        elapsedAtLeave = startTime ? Date.now() - startTime : 0;
+        const activeStart = startTime ?? loadSessionStart(location.pathname);
+        elapsedAtLeave = activeStart ? Date.now() - activeStart : 0;
       }
-      startTime = null;
       removeTimer();
 
       if (!isEnabled || h1.dataset.meetkeepTagged) return;
@@ -172,6 +191,7 @@ export default defineContentScript({
       });
       label.addEventListener('click', () => {
         startTime = Date.now();
+        saveSessionStart(location.pathname, startTime);
         tick();
       });
 
@@ -208,9 +228,13 @@ export default defineContentScript({
         if (document.getElementById(TIMER_ID)) return;
         if (!isStillOnPrejoinScreen()) return;
 
+        if (startTime === null) {
+          startTime = loadSessionStart(location.pathname);
+        }
         const isNewSession = startTime === null;
         if (isNewSession) {
           startTime = Date.now();
+          saveSessionStart(location.pathname, startTime);
         }
         elapsedAtLeave = null;
 
@@ -283,7 +307,7 @@ export default defineContentScript({
     function handleNavigation() {
       if (location.pathname !== currentPath) {
         currentPath = location.pathname;
-        startTime = null;
+        startTime = loadSessionStart(currentPath);
         elapsedAtLeave = null;
       }
       removeTimer();
